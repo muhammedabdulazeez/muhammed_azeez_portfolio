@@ -67,7 +67,7 @@ export function ProjectsSection({ onSelectProject }: ProjectsSectionProps) {
             <div
               key={project.id}
               onClick={() => onSelectProject(project)}
-              className="group cursor-pointer bg-slate-900/50 hover:bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1.5 shadow-lg shadow-black/40 hover:shadow-2xl hover:shadow-blue-950/30 flex flex-col"
+              className="group cursor-pointer shiny-border rounded-2xl overflow-hidden bg-slate-900/60 hover:bg-slate-900/80 transition-all duration-300 hover:-translate-y-1.5 shadow-lg shadow-black/40 hover:shadow-2xl hover:shadow-cyan-950/40 flex flex-col"
             >
               {/* Thumbnail Container */}
               <div className="relative aspect-video overflow-hidden bg-slate-950 border-b border-slate-800">

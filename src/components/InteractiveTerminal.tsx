@@ -78,9 +78,10 @@ export function InteractiveTerminal({ onOpenResume }: InteractiveTerminalProps) 
         { id: `h4-${Date.now()}`, type: 'output', text: '  projects  - Inspect deployed architectures & case studies', color: 'text-yellow-300' },
         { id: `h5-${Date.now()}`, type: 'output', text: '  certs     - List verified credentials (AWS, GCP, Aptech)', color: 'text-yellow-300' },
         { id: `h6-${Date.now()}`, type: 'output', text: '  scan      - Execute automated perimeter vulnerability probe', color: 'text-emerald-400 font-semibold' },
-        { id: `h7-${Date.now()}`, type: 'output', text: '  cv        - Launch full resume / curriculum vitae viewer', color: 'text-cyan-300' },
-        { id: `h8-${Date.now()}`, type: 'output', text: '  contact   - Display communication channels & email', color: 'text-slate-300' },
-        { id: `h9-${Date.now()}`, type: 'output', text: '  clear     - Wipe current console buffer', color: 'text-slate-400' },
+        { id: `h7-${Date.now()}`, type: 'output', text: '  medxploit - Launch AI Cybersecurity Mentor query & assistant', color: 'text-cyan-400 font-bold' },
+        { id: `h8-${Date.now()}`, type: 'output', text: '  cv        - Launch full resume / curriculum vitae viewer', color: 'text-cyan-300' },
+        { id: `h9-${Date.now()}`, type: 'output', text: '  contact   - Display communication channels & email', color: 'text-slate-300' },
+        { id: `h10-${Date.now()}`, type: 'output', text: '  clear     - Wipe current console buffer', color: 'text-slate-400' },
       ]);
       return;
     }
@@ -145,6 +146,17 @@ export function InteractiveTerminal({ onOpenResume }: InteractiveTerminalProps) 
       return;
     }
 
+    if (cmd === 'medxploit' || cmd === 'ai' || cmd === 'mentor') {
+      const el = document.getElementById('medxploit');
+      el?.scrollIntoView({ behavior: 'smooth' });
+      await streamLines([
+        { id: `med1-${Date.now()}`, type: 'output', text: '[+] Engaging Medxploit AI Cybersecurity Mentor...', color: 'text-cyan-400 font-bold' },
+        { id: `med2-${Date.now()}`, type: 'output', text: '[*] Uplink established with Gemini 3.8 Flash Neural Core.', color: 'text-emerald-400' },
+        { id: `med3-${Date.now()}`, type: 'output', text: '[i] Navigated to #medxploit interface. Ask questions or test with interactive CTF scenarios!', color: 'text-white' },
+      ]);
+      return;
+    }
+
     if (cmd === 'cv' || cmd === 'resume') {
       onOpenResume();
       await streamLines([
@@ -203,7 +215,7 @@ export function InteractiveTerminal({ onOpenResume }: InteractiveTerminalProps) 
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const quickCommands = ['whoami', 'scan', 'skills', 'projects', 'certs', 'download', 'cv', 'help', 'clear'];
+  const quickCommands = ['whoami', 'medxploit', 'scan', 'skills', 'projects', 'certs', 'cv', 'help', 'clear'];
 
   return (
     <section id="terminal" className="py-20 relative z-10">
@@ -245,7 +257,7 @@ export function InteractiveTerminal({ onOpenResume }: InteractiveTerminalProps) 
         </div>
 
         {/* Terminal Window Frame */}
-        <div className="rounded-2xl overflow-hidden bg-slate-950/95 border border-slate-800 shadow-2xl backdrop-blur-xl font-mono text-xs sm:text-sm">
+        <div className="shiny-border rounded-2xl overflow-hidden bg-slate-950/95 shadow-2xl backdrop-blur-xl font-mono text-xs sm:text-sm">
           
           {/* Top Bar */}
           <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-900/90 border-b border-slate-800">

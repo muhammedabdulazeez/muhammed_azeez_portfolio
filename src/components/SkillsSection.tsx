@@ -99,7 +99,7 @@ export function SkillsSection() {
         {/* Skills Cards Grid */}
         <div className="space-y-10">
           {filteredCategories.map((catGroup, idx) => (
-            <div key={idx} className="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 sm:p-8 backdrop-blur-md">
+            <div key={idx} className="shiny-border rounded-2xl bg-slate-900/60 p-6 sm:p-8 backdrop-blur-md">
               <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-4">
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
@@ -119,7 +119,7 @@ export function SkillsSection() {
                   return (
                     <div
                       key={sIdx}
-                      className="bg-slate-950/70 border border-slate-800/80 hover:border-blue-500/40 rounded-xl p-4 sm:p-5 transition-all group"
+                      className="shiny-border rounded-xl bg-slate-950/80 p-4 sm:p-5 transition-all group hover:scale-[1.01]"
                     >
                       <div className="flex items-start justify-between gap-3 mb-3">
                         <div className="flex items-center gap-3">
@@ -158,7 +158,7 @@ export function SkillsSection() {
         </div>
 
         {/* Global Security Arsenal Pill Tags */}
-        <div className="mt-14 p-6 bg-slate-900/50 border border-slate-800 rounded-2xl text-center">
+        <div className="mt-14 p-6 bg-slate-900/60 shiny-border rounded-2xl text-center">
           <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-4">
             {t('Core Ecosystem Technologies', 'Teknologi Ekosistem Utama')}
           </h4>

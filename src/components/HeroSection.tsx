@@ -1,5 +1,19 @@
 import { useState } from 'react';
-import { Shield, ArrowRight, Award, Lock, ExternalLink, Terminal, Cpu, Sparkles, RefreshCw } from 'lucide-react';
+import { motion } from 'motion/react';
+import { 
+  Shield, 
+  ArrowRight, 
+  Award, 
+  ExternalLink, 
+  Terminal, 
+  RotateCw, 
+  Move, 
+  Sparkles,
+  QrCode,
+  Radio,
+  Linkedin,
+  Cpu
+} from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -9,15 +23,11 @@ interface HeroSectionProps {
 
 export function HeroSection({ onOpenResume }: HeroSectionProps) {
   const { t } = useLanguage();
-  const [isAiMode, setIsAiMode] = useState(false);
-  const [isGlitching, setIsGlitching] = useState(false);
+  const [isPhotoFlipped, setIsPhotoFlipped] = useState(false);
 
-  const toggleAvatar = () => {
-    setIsGlitching(true);
-    setTimeout(() => {
-      setIsAiMode((prev) => !prev);
-      setIsGlitching(false);
-    }, 180);
+  const togglePhotoFlip = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsPhotoFlipped((prev) => !prev);
   };
 
   return (
@@ -31,12 +41,13 @@ export function HeroSection({ onOpenResume }: HeroSectionProps) {
           
           {/* Left Column: Intro & Headline */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
+            
             {/* Status chip */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-700/80 text-xs text-slate-300 mb-6 backdrop-blur-md shadow-sm">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="font-mono text-emerald-400 font-medium">ONLINE</span>
               <span className="text-slate-600">|</span>
-              <span>{t('Available for Cloud Security & Red Team Engagements', 'Siap untuk Posisi Keamanan Cloud & Red Team')}</span>
+              <span>{t('Available for Cloud Security & Red Team Roles', 'Siap untuk Posisi Keamanan Cloud & Red Team')}</span>
             </div>
 
             {/* Main Headline */}
@@ -54,15 +65,66 @@ export function HeroSection({ onOpenResume }: HeroSectionProps) {
             </p>
 
             {/* Narrative Professional Bio */}
-            <p className="text-base sm:text-lg text-slate-300 mb-8 max-w-2xl leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-300 mb-6 max-w-2xl leading-relaxed">
               {t(
                 PERSONAL_INFO.bio,
                 'Analis Keamanan Cloud dan Spesialis Keamanan Ofensif berorientasi hasil dengan keahlian terbukti dalam Zero-Trust IAM, rekayasa perimeter multi-cloud (AWS & Google Cloud), serta pengujian penetrasi aplikasi web. Berpengalaman menemukan kerentanan kritis, merancang arsitektur pertahanan berlapis, dan memastikan kepatuhan regulasi GRC.'
               )}
             </p>
 
+            {/* Social Connection Pills */}
+            <div className="flex flex-wrap items-center gap-2.5 mb-8">
+              <a
+                href={PERSONAL_INFO.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/50 text-xs text-slate-300 hover:text-white transition-all font-mono"
+              >
+                <Linkedin className="w-3.5 h-3.5 text-cyan-400" />
+                <span>LinkedIn</span>
+              </a>
+
+              <a
+                href={PERSONAL_INFO.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/50 text-xs text-slate-300 hover:text-white transition-all font-mono"
+              >
+                <span className="font-bold text-xs">𝕏</span>
+                <span>@Medxploit</span>
+              </a>
+
+              <a
+                href={PERSONAL_INFO.medium}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/50 text-xs text-slate-300 hover:text-white transition-all font-mono"
+              >
+                <span className="font-bold text-xs text-emerald-400">M</span>
+                <span>Medium Blog</span>
+              </a>
+
+              <a
+                href={PERSONAL_INFO.tryhackme}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/50 text-xs text-slate-300 hover:text-white transition-all font-mono"
+              >
+                <Shield className="w-3.5 h-3.5 text-blue-400" />
+                <span>TryHackMe</span>
+              </a>
+
+              <a
+                href="#media-stream"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-950/60 hover:bg-emerald-900/60 border border-emerald-800/60 text-xs text-emerald-300 transition-all font-mono"
+              >
+                <Radio className="w-3.5 h-3.5 animate-pulse" />
+                <span>Focus Beats / Stream</span>
+              </a>
+            </div>
+
             {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-4 mb-10 w-full sm:w-auto">
+            <div className="flex flex-wrap items-center gap-4 mb-8 w-full sm:w-auto">
               <a
                 href="#projects"
                 className="flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 rounded-xl shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 hover:-translate-y-0.5 transition-all w-full sm:w-auto"
@@ -81,14 +143,14 @@ export function HeroSection({ onOpenResume }: HeroSectionProps) {
 
               <button
                 onClick={onOpenResume}
-                className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-medium text-slate-300 hover:text-white bg-transparent hover:bg-slate-800/40 border border-slate-800 rounded-xl transition-all w-full sm:w-auto"
+                className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-medium text-slate-300 hover:text-white bg-transparent hover:bg-slate-800/40 border border-slate-800 rounded-xl transition-all w-full sm:w-auto cursor-pointer"
               >
                 <span>{t('View CV', 'Lihat CV')}</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            {/* Quick Terminal Command Hint */}
+            {/* Terminal Command Quick Hint */}
             <div className="flex items-center gap-2 text-xs font-mono text-slate-400 bg-slate-950/60 border border-slate-800/80 rounded-lg px-3.5 py-2">
               <Terminal className="w-3.5 h-3.5 text-cyan-400" />
               <span className="text-slate-500">$</span>
@@ -96,111 +158,192 @@ export function HeroSection({ onOpenResume }: HeroSectionProps) {
             </div>
           </div>
 
-          {/* Right Column: Flashy Interactive Hacker AI Avatar Card */}
-          <div className="lg:col-span-5 flex justify-center items-center relative">
-            <div className="relative w-full max-w-sm sm:max-w-md">
-              
-              {/* Outer cyber glow aura */}
-              <div className={`absolute -inset-2 rounded-3xl blur-2xl transition-all duration-700 pointer-events-none ${
-                isAiMode 
-                  ? 'bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 opacity-70 animate-pulse' 
-                  : 'bg-gradient-to-r from-blue-600 to-cyan-500 opacity-40'
-              }`} />
+          {/* Right Column: Unified Single ID Badge with In-Place Flipping Photo */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
+            
+            {/* Lanyard Strap at the top */}
+            <div className="flex flex-col items-center pointer-events-none select-none z-20 -mb-2">
+              <div className="w-4 h-12 bg-gradient-to-b from-blue-900/90 to-blue-600 border-x border-blue-400/50 shadow-md" />
+              <div className="w-12 h-4 bg-gradient-to-b from-slate-400 to-slate-600 rounded-md border border-slate-300 shadow-lg flex items-center justify-center">
+                <div className="w-4 h-1 bg-slate-800 rounded-full" />
+              </div>
+            </div>
 
-              {/* Main portrait glass container */}
-              <div 
-                onClick={toggleAvatar}
-                onMouseEnter={() => {}}
-                className="relative rounded-2xl overflow-hidden bg-slate-900/95 border border-slate-700/80 hover:border-cyan-400/70 shadow-2xl backdrop-blur-xl p-3 cursor-pointer group select-none transition-all duration-300"
-                title="Tap or click to toggle Hacker AI Avatar mode"
-              >
+            {/* Draggable Motion Badge Container (ONE single card in ONE place) */}
+            <motion.div
+              drag
+              dragConstraints={{ left: -50, right: 50, top: -35, bottom: 35 }}
+              dragElastic={0.15}
+              whileDrag={{ scale: 1.02, cursor: 'grabbing', zIndex: 50 }}
+              className="relative w-full max-w-[340px] sm:max-w-[370px] cursor-grab select-none"
+            >
+              {/* Outer Glow */}
+              <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl blur-xl opacity-35 pointer-events-none" />
+
+              {/* Single Solid ID Card Shell */}
+              <div className="shiny-border rounded-2xl overflow-hidden bg-slate-900/95 shadow-2xl backdrop-blur-xl p-3.5 relative">
                 
-                {/* Header card indicator bar */}
-                <div className="flex items-center justify-between px-3 py-2 border-b border-slate-800/80 mb-3 bg-slate-950/80 rounded-lg">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                {/* Badge Header: Clearance and Security Id */}
+                <div className="bg-slate-950/90 rounded-xl p-2.5 mb-3 border border-slate-800 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-cyan-400 font-bold text-xs">
+                      <Shield className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-[10px] font-mono tracking-widest text-cyan-400 font-bold uppercase">
+                        CYBER DEFENSE BADGE
+                      </div>
+                      <div className="text-[9px] font-mono text-slate-400">
+                        AUTH-ID: 022379-SEC
+                      </div>
+                    </div>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400">
-                    {isAiMode ? 'hacker_ai_avatar.cyber' : 'muhammed_portrait.sec'}
-                  </span>
-                  <div className={`flex items-center gap-1 text-[11px] font-mono font-semibold ${isAiMode ? 'text-purple-400 animate-pulse' : 'text-cyan-400'}`}>
-                    <Cpu className="w-3 h-3" />
-                    <span>{isAiMode ? 'NEURAL_AI' : 'BIOMETRIC'}</span>
-                  </div>
-                </div>
-
-                {/* Portrait Frame with interactive image switch */}
-                <div className={`relative aspect-[3/4] rounded-xl overflow-hidden bg-slate-950 border border-slate-800 transition-all duration-300 ${isGlitching ? 'brightness-150 contrast-125' : ''}`}>
                   
-                  {/* Photo Image (Real or AI) */}
-                  <img
-                    src={isAiMode ? PERSONAL_INFO.hackerAiImage : PERSONAL_INFO.portraitImage}
-                    alt={isAiMode ? "Muhammed Abdulazeez - Hacker AI Persona" : "Muhammed Abdulazeez - Cloud Security Analyst"}
-                    className={`w-full h-full object-cover object-center filter saturate-105 contrast-105 transition-all duration-500 group-hover:scale-105 ${
-                      isGlitching ? 'scale-110 filter blur-[1px]' : ''
-                    }`}
-                    referrerPolicy="no-referrer"
-                  />
-
-                  {/* Cyber Matrix scanline effect in AI Mode */}
-                  {isAiMode && (
-                    <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/10 via-transparent to-purple-600/15 pointer-events-none mix-blend-overlay" />
-                  )}
-
-                  {/* Gradient bottom scrim */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-85" />
-
-                  {/* Holographic interactive touch trigger tag on top */}
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                    <div className={`px-2.5 py-1 rounded-md text-[10px] font-mono font-bold flex items-center gap-1.5 shadow-lg backdrop-blur-md border ${
-                      isAiMode
-                        ? 'bg-purple-950/90 text-purple-300 border-purple-500/60'
-                        : 'bg-slate-950/90 text-cyan-300 border-cyan-500/50'
-                    }`}>
-                      <Sparkles className="w-3 h-3 text-cyan-400 animate-spin" />
-                      <span>{isAiMode ? 'HACKER AI MATRIX [ACTIVE]' : 'REALITY PROFILE'}</span>
-                    </div>
-
-                    <div className="bg-slate-950/90 px-2 py-1 rounded-md text-[10px] font-mono text-cyan-400 border border-slate-800 flex items-center gap-1">
-                      <RefreshCw className="w-3 h-3 animate-spin" />
-                      <span>TOUCH TO SWITCH</span>
-                    </div>
-                  </div>
-
-                  {/* Overlaid credentials banner */}
-                  <div className="absolute bottom-3 left-3 right-3 bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-xl p-3 shadow-lg">
-                    <div className="flex items-center justify-between text-xs mb-1">
-                      <span className="font-semibold text-white">
-                        {isAiMode ? 'Cyber Threat Intelligence AI' : 'Muhammed O. Abdulazeez'}
-                      </span>
-                      <span className="text-cyan-400 font-mono text-[11px]">
-                        {isAiMode ? 'SYS_UID: 0xDEADBEEF' : 'ID: 022379'}
-                      </span>
-                    </div>
-                    <div className="text-[11px] text-slate-400 flex items-center gap-2">
-                      <span>{isAiMode ? 'Adversary Simulation' : 'Ethical Hacker (Aptech)'}</span>
-                      <span>·</span>
-                      <span>{isAiMode ? 'Red Team Operator' : 'GCP & AWS Security'}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Floating interactive tap button */}
-                <div className="mt-3 flex items-center justify-center">
-                  <div className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-blue-950/80 to-cyan-950/80 border border-cyan-500/50 flex items-center justify-center gap-2 text-xs font-mono text-cyan-300 group-hover:text-white group-hover:border-cyan-400 transition-all shadow-md shadow-cyan-950/40">
-                    <Zap className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-                    <span className="font-semibold">
-                      {isAiMode 
-                        ? t('Tap to Return to Real Photo', 'Sentuh untuk Kembali ke Foto Asli') 
-                        : t('⚡ Touch / Tap for Hacker AI Persona', '⚡ Sentuh untuk Beralih ke Hacker AI')}
+                  <div className="text-right">
+                    <span className="text-[9px] font-mono bg-red-950/80 text-red-400 px-2 py-0.5 rounded border border-red-800/80 font-bold">
+                      CLEARANCE: L5
                     </span>
                   </div>
                 </div>
 
+                {/* ========================================================= */}
+                {/* IN-PLACE FLIPPING PHOTO CONTAINER (Flips in 1 single spot) */}
+                {/* ========================================================= */}
+                <div 
+                  onClick={togglePhotoFlip}
+                  className="relative aspect-[3/4] rounded-xl overflow-hidden cursor-pointer group"
+                  style={{ perspective: 1000 }}
+                  title="Click or tap to flip photo"
+                >
+                  <div
+                    className="relative w-full h-full transition-transform duration-700 ease-out"
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      transform: isPhotoFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                    }}
+                  >
+                    {/* PHOTO FACE 1 (FRONT): Portrait */}
+                    <div
+                      className="absolute inset-0 w-full h-full rounded-xl overflow-hidden bg-slate-950 border border-slate-800"
+                      style={{
+                        backfaceVisibility: 'hidden',
+                        WebkitBackfaceVisibility: 'hidden',
+                      }}
+                    >
+                      <img
+                        src={PERSONAL_INFO.portraitImage}
+                        alt="Muhammed Abdulazeez - Security Analyst"
+                        className="w-full h-full object-cover object-center filter saturate-105 contrast-105"
+                        referrerPolicy="no-referrer"
+                      />
+
+                      {/* Holographic Watermark Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-85 pointer-events-none" />
+
+                      {/* Smartcard Gold Chip Graphic */}
+                      <div className="absolute top-3 left-3 w-9 h-7 rounded bg-gradient-to-tr from-amber-600 via-yellow-400 to-amber-500 p-0.5 shadow-md border border-amber-300/60 opacity-90">
+                        <div className="w-full h-full border border-amber-800/40 rounded flex flex-col justify-around p-0.5">
+                          <div className="h-0.5 bg-amber-800/40" />
+                          <div className="h-0.5 bg-amber-800/40" />
+                        </div>
+                      </div>
+
+                      {/* Biometric Active Status */}
+                      <div className="absolute top-3 right-3 bg-slate-950/90 backdrop-blur-md px-2 py-0.5 rounded border border-emerald-500/50 text-[10px] font-mono text-emerald-400 flex items-center gap-1 shadow-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        <span>PORTRAIT</span>
+                      </div>
+
+                      {/* Tap to Flip Overlay Hint */}
+                      <div className="absolute bottom-3 right-3 bg-slate-950/80 backdrop-blur-md px-2 py-0.5 rounded border border-cyan-500/40 text-[10px] font-mono text-cyan-300 flex items-center gap-1">
+                        <RotateCw className="w-3 h-3 text-cyan-400 group-hover:rotate-180 transition-transform duration-500" />
+                        <span>FLIP</span>
+                      </div>
+                    </div>
+
+                    {/* PHOTO FACE 2 (BACK): Workstation Terminal Photo */}
+                    <div
+                      className="absolute inset-0 w-full h-full rounded-xl overflow-hidden bg-slate-950 border border-cyan-500/60"
+                      style={{
+                        backfaceVisibility: 'hidden',
+                        WebkitBackfaceVisibility: 'hidden',
+                        transform: 'rotateY(180deg)',
+                      }}
+                    >
+                      <img
+                        src={PERSONAL_INFO.workstationImage}
+                        alt="Muhammed Abdulazeez at Terminal Workstation"
+                        className="w-full h-full object-cover object-center"
+                        referrerPolicy="no-referrer"
+                      />
+
+                      {/* Scrim Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/25 to-transparent opacity-85 pointer-events-none" />
+
+                      {/* Workstation Active Status */}
+                      <div className="absolute top-3 right-3 bg-slate-950/90 backdrop-blur-md px-2 py-0.5 rounded border border-cyan-500/50 text-[10px] font-mono text-cyan-300 flex items-center gap-1 shadow-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                        <span>WORKSTATION</span>
+                      </div>
+
+                      {/* Overlaid Workstation Specs */}
+                      <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-slate-950/90 backdrop-blur-md border border-slate-700/80 rounded-lg p-2 shadow-lg text-[9px] font-mono space-y-0.5">
+                        <div className="flex items-center justify-between text-cyan-300 font-bold">
+                          <span>LIVE OPS TERMINAL</span>
+                          <span className="text-emerald-400">ACTIVE</span>
+                        </div>
+                        <div className="text-slate-300 truncate">
+                          • Rig: Offensive Pentest Lab Rig
+                        </div>
+                        <div className="text-slate-300 truncate">
+                          • Stack: Burp Suite Pro · Kali · Keycloak
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Operator Identification Block */}
+                <div className="mt-3 bg-slate-950/90 backdrop-blur-md border border-slate-800 rounded-xl p-2.5 shadow-sm">
+                  <div className="flex items-center justify-between text-xs mb-1">
+                    <span className="font-bold text-white tracking-wide">
+                      MUHAMMED O. ABDULAZEEZ
+                    </span>
+                    <QrCode className="w-4 h-4 text-cyan-400" />
+                  </div>
+                  <div className="text-[10px] font-mono text-cyan-300 font-medium">
+                    CLOUD SECURITY ANALYST · RED TEAM
+                  </div>
+                  <div className="text-[9px] font-mono text-slate-400 mt-1 flex items-center justify-between">
+                    <span>APTECH ETHICAL HACKER</span>
+                    <span>AWS & GCP CERTIFIED</span>
+                  </div>
+                </div>
+
+                {/* Flip Photo Toggle Button */}
+                <button
+                  type="button"
+                  onClick={togglePhotoFlip}
+                  className="w-full mt-2 py-1.5 px-3 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-between text-[11px] font-mono text-slate-300 hover:text-cyan-300 transition-colors cursor-pointer"
+                >
+                  <span className="flex items-center gap-1.5">
+                    <RotateCw className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>{t('Click photo to flip view', 'Klik foto untuk balik tampilan')}</span>
+                  </span>
+                  <span className="text-[9px] font-mono bg-blue-950 text-cyan-300 px-2 py-0.5 rounded border border-blue-800">
+                    {isPhotoFlipped ? 'WORKSTATION' : 'PORTRAIT'}
+                  </span>
+                </button>
+
               </div>
+            </motion.div>
+
+            {/* Interaction Helper Tag */}
+            <div className="mt-3 flex items-center gap-2 text-xs font-mono text-slate-400">
+              <Move className="w-3 h-3 text-cyan-400 animate-bounce" />
+              <span>{t('Draggable ID badge · Tap photo to flip', 'Lencana dapat digeser · Ketuk foto untuk membalik')}</span>
             </div>
+
           </div>
 
         </div>
@@ -210,9 +353,9 @@ export function HeroSection({ onOpenResume }: HeroSectionProps) {
           {PERSONAL_INFO.stats.map((stat, idx) => (
             <div
               key={idx}
-              className="bg-slate-900/40 border border-slate-800/60 rounded-xl p-4 backdrop-blur-sm hover:border-slate-700 transition-colors"
+              className="bg-slate-900/60 shiny-border rounded-2xl p-4 backdrop-blur-md hover:-translate-y-1 transition-all"
             >
-              <div className="text-2xl sm:text-3xl font-extrabold text-transparent bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text font-mono">
+              <div className="text-2xl sm:text-3xl font-extrabold text-transparent bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300 bg-clip-text font-mono">
                 {stat.value}
               </div>
               <div className="text-xs sm:text-sm text-slate-400 mt-1 font-medium">
@@ -224,22 +367,5 @@ export function HeroSection({ onOpenResume }: HeroSectionProps) {
 
       </div>
     </section>
-  );
-}
-
-// Add tiny Zap icon helper
-function Zap({ className }: { className?: string }) {
-  return (
-    <svg 
-      className={className} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    >
-      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-    </svg>
   );
 }

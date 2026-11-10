@@ -52,10 +52,13 @@ export const PERSONAL_INFO = {
   location: 'Lagos, Nigeria (Open to Worldwide Remote)',
   availability: 'Available for Full-Time Roles & Consulting',
   portraitImage: '/assets/aistudio/portrait_d5fda6fa.jpg',
+  workstationImage: '/assets/aistudio/WhatsApp_Image_2026-11-10_at_12.27.23_464e322f.jpeg',
   hackerAiImage: '/src/assets/images/hacker_ai_avatar_1794235471805.jpg',
   github: 'https://github.com/muhammedabdulazeez',
-  linkedin: 'https://linkedin.com/in/muhammed-abdulazeez',
-  tryhackme: 'https://tryhackme.com/p/MUHAMMEDAZEEZ770',
+  linkedin: 'https://www.linkedin.com/in/timi-azeez36/',
+  twitter: 'https://x.com/Medxploit',
+  medium: 'https://medium.com/@muhammedabdulazeez770',
+  tryhackme: 'https://tryhackme.com/p/Muhammedazeez770',
   credly: 'https://www.credly.com/users/muhammed-abdul-azeez.4c97459e',
   stats: [
     { label: 'Verified Certifications', value: '11+' },
@@ -63,6 +66,21 @@ export const PERSONAL_INFO = {
     { label: 'Least-Privilege Focus', value: '100%' },
     { label: 'GRC Training Hours', value: '34h+' },
   ]
+};
+
+export const PLAYLISTS = {
+  spotify: {
+    title: 'Security Focus & Coding Beats',
+    subtitle: 'Official Curated Spotify Playlist for Muhammed Abdulazeez',
+    embedUrl: 'https://open.spotify.com/embed/playlist/0310BzBG2RzCoJOSwowtaN?utm_source=generator&theme=0',
+    externalUrl: 'https://open.spotify.com/playlist/0310BzBG2RzCoJOSwowtaN?si=5f8ff00fbd284cb1'
+  },
+  youtube: {
+    title: 'Cloud Security & Ethical Hacking Stream',
+    subtitle: 'Curated Security Playlist: Hands-on Labs & Attack Walkthroughs',
+    embedUrl: 'https://www.youtube.com/embed/videoseries?list=PLhRi2qermsC2M54wMax4FI1gRzp9YkOOs',
+    externalUrl: 'https://youtube.com/playlist?list=PLhRi2qermsC2M54wMax4FI1gRzp9YkOOs&si=V-uc6t2jtxWpPtWo'
+  }
 };
 
 export const PROJECTS: Project[] = [

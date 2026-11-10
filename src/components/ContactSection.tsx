@@ -53,7 +53,7 @@ export function ContactSection() {
           <div className="lg:col-span-5 space-y-6">
             
             {/* Primary Email Card */}
-            <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-md">
+            <div className="bg-slate-900/60 shiny-border rounded-2xl p-6 backdrop-blur-md">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-cyan-400 shrink-0">
                   <Mail className="w-6 h-6" />
@@ -86,7 +86,7 @@ export function ContactSection() {
             </div>
 
             {/* Location & Status Card */}
-            <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-md">
+            <div className="bg-slate-900/60 shiny-border rounded-2xl p-6 backdrop-blur-md">
               <div className="flex items-center gap-4 mb-3">
                 <div className="w-12 h-12 rounded-xl bg-cyan-600/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
                   <MapPin className="w-6 h-6" />
@@ -103,7 +103,7 @@ export function ContactSection() {
             </div>
 
             {/* Profiles & Verification links */}
-            <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-md">
+            <div className="bg-slate-900/60 shiny-border rounded-2xl p-6 backdrop-blur-md">
               <h3 className="text-sm font-bold text-white mb-3">
                 {t('Verified Cyber Profiles', 'Profil Terverifikasi')}
               </h3>
@@ -134,7 +134,27 @@ export function ContactSection() {
                   rel="noopener noreferrer"
                   className="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 hover:bg-slate-950 border border-slate-800 hover:border-cyan-500/50 transition-all text-xs group"
                 >
-                  <span className="font-semibold text-slate-200 group-hover:text-cyan-300">LinkedIn Network</span>
+                  <span className="font-semibold text-slate-200 group-hover:text-cyan-300">LinkedIn: timi-azeez36</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-400" />
+                </a>
+
+                <a
+                  href={PERSONAL_INFO.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 hover:bg-slate-950 border border-slate-800 hover:border-cyan-500/50 transition-all text-xs group"
+                >
+                  <span className="font-semibold text-slate-200 group-hover:text-cyan-300">X (Twitter): @Medxploit</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-400" />
+                </a>
+
+                <a
+                  href={PERSONAL_INFO.medium}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 hover:bg-slate-950 border border-slate-800 hover:border-cyan-500/50 transition-all text-xs group"
+                >
+                  <span className="font-semibold text-slate-200 group-hover:text-cyan-300">Medium Articles: @muhammedabdulazeez770</span>
                   <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-400" />
                 </a>
               </div>
@@ -143,7 +163,7 @@ export function ContactSection() {
           </div>
 
           {/* Right Column: Interactive Contact Form */}
-          <div className="lg:col-span-7 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 sm:p-8 backdrop-blur-md">
+          <div className="lg:col-span-7 bg-slate-900/60 shiny-border rounded-2xl p-6 sm:p-8 backdrop-blur-md">
             <h3 className="text-xl font-bold text-white mb-2">
               {t('Send an Encrypted Dispatch', 'Kirim Pesan Langsung')}
             </h3>

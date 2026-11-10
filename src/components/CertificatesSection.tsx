@@ -68,7 +68,7 @@ export function CertificatesSection({ onSelectCertificate }: CertificatesSection
             <div
               key={cert.id}
               onClick={() => onSelectCertificate(cert)}
-              className="group cursor-pointer bg-slate-900/50 hover:bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1.5 shadow-lg shadow-black/40 hover:shadow-cyan-950/20 flex flex-col justify-between"
+              className="group cursor-pointer shiny-border rounded-2xl overflow-hidden bg-slate-900/60 hover:bg-slate-900/80 transition-all duration-300 hover:-translate-y-1.5 shadow-lg shadow-black/40 hover:shadow-cyan-950/40 flex flex-col justify-between"
             >
               <div>
                 {/* Thumbnail Preview Header */}
@@ -148,7 +148,7 @@ export function CertificatesSection({ onSelectCertificate }: CertificatesSection
         </div>
 
         {/* Credly Wallet Direct Banner */}
-        <div className="mt-12 bg-gradient-to-r from-blue-950/40 via-slate-900/60 to-cyan-950/40 border border-blue-800/40 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-12 bg-gradient-to-r from-blue-950/40 via-slate-900/60 to-cyan-950/40 shiny-border rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-cyan-400 shrink-0">
               <Award className="w-6 h-6" />

@@ -72,7 +72,7 @@ export function AboutSection({ onOpenResume }: AboutSectionProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
           
           {/* Left: Bio narrative */}
-          <div className="lg:col-span-7 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 sm:p-8 backdrop-blur-md">
+          <div className="lg:col-span-7 bg-slate-900/70 shiny-border rounded-2xl p-6 sm:p-8 backdrop-blur-md">
             <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
               <span className="w-2 h-6 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-sm" />
               <span>{t('Professional Journey & Vision', 'Perjalanan Profesional & Visi')}</span>
@@ -122,7 +122,7 @@ export function AboutSection({ onOpenResume }: AboutSectionProps) {
 
           {/* Right: Key Info Snapshot Card */}
           <div className="lg:col-span-5 flex flex-col gap-6">
-            <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-md">
+            <div className="bg-slate-900/70 shiny-border rounded-2xl p-6 backdrop-blur-md">
               <h3 className="text-lg font-bold text-white mb-4 pb-2 border-b border-slate-800">
                 {t('Security Profile Snapshot', 'Ringkasan Profil Keamanan')}
               </h3>
@@ -180,7 +180,7 @@ export function AboutSection({ onOpenResume }: AboutSectionProps) {
             </div>
 
             {/* Quote card */}
-            <div className="bg-gradient-to-br from-blue-950/40 to-slate-900/60 border border-blue-900/40 rounded-2xl p-5 text-xs sm:text-sm text-slate-300 italic">
+            <div className="bg-gradient-to-br from-blue-950/40 to-slate-900/60 shiny-border rounded-2xl p-5 text-xs sm:text-sm text-slate-300 italic">
               &ldquo;{t(
                 'Security is not a checkbox product; it is an active discipline of understanding authorization trust boundaries, validating access policies, and assuming breach.',
                 'Keamanan bukan sekadar daftar centang; ini adalah disiplin berkelanjutan dalam memahami batasan kepercayaan otorisasi dan memvalidasi setiap kebijakan akses.'
@@ -197,7 +197,7 @@ export function AboutSection({ onOpenResume }: AboutSectionProps) {
             return (
               <div
                 key={idx}
-                className="group bg-slate-900/50 hover:bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 shadow-sm hover:shadow-xl hover:shadow-blue-950/30"
+                className="group bg-slate-900/60 shiny-border rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5"
               >
                 <div className="w-12 h-12 rounded-xl bg-blue-950/70 border border-blue-800/60 flex items-center justify-center text-cyan-400 mb-4 group-hover:scale-110 group-hover:bg-blue-900/70 transition-all">
                   <IconComponent className="w-6 h-6" />

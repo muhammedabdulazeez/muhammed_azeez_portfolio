@@ -63,6 +63,24 @@ export function Footer() {
               <Shield className="w-4 h-4" />
             </a>
             <a
+              href={PERSONAL_INFO.twitter}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-slate-400 hover:text-cyan-400 bg-slate-900 border border-slate-800 rounded-lg transition-colors font-bold text-xs"
+              title="X (Twitter)"
+            >
+              𝕏
+            </a>
+            <a
+              href={PERSONAL_INFO.medium}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-slate-400 hover:text-emerald-400 bg-slate-900 border border-slate-800 rounded-lg transition-colors font-bold text-xs"
+              title="Medium"
+            >
+              M
+            </a>
+            <a
               href={PERSONAL_INFO.linkedin}
               target="_blank"
               rel="noopener noreferrer"
