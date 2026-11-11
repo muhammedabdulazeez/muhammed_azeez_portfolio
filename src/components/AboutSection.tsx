@@ -1,3 +1,4 @@
+import { motion } from 'motion/react';
 import { Shield, CheckCircle2, MapPin, Mail, Award, Lock, Server, FileText } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
@@ -22,8 +23,8 @@ export function AboutSection({ onOpenResume }: AboutSectionProps) {
       icon: Server,
       title: t('Cloud Infrastructure Security', 'Keamanan Infrastruktur Cloud'),
       desc: t(
-        'Engineering hardened VPC perimeters, configuring least-privilege IAM policies, and automating threat detection with Google Security Command Center.',
-        'Membangun perimeter VPC yang kuat, mengonfigurasi kebijakan IAM least-privilege, dan mengotomatisasi deteksi ancaman dengan Google SCC.'
+        'Hardening AWS IAM least-privilege policies, GCP VPC firewalls, and implementing continuous CSPM via Security Command Center.',
+        'Memperkuat kebijakan least-privilege AWS IAM, firewall VPC GCP, dan menerapkan CSPM berkelanjutan melalui Security Command Center.'
       ),
     },
     {
@@ -44,14 +45,44 @@ export function AboutSection({ onOpenResume }: AboutSectionProps) {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.14,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 35, scale: 0.96 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.55,
+        ease: [0.16, 1, 0.3, 1] as const,
+      },
+    },
+  };
+
   return (
     <section id="about" className="py-24 relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950/60 border border-blue-800/60 text-xs font-mono text-cyan-400 mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+        {/* Section Header with Scroll Drop Animation */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-800/70 text-xs font-mono text-emerald-400 mb-4 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             <span>{t('ABOUT ME', 'TENTANG SAYA')}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
@@ -66,15 +97,21 @@ export function AboutSection({ onOpenResume }: AboutSectionProps) {
               'Filosofi saya sederhana: Untuk mempertahankan sistem, Anda harus menguasai pola pikir penyerang. Saya memadukan ethical hacking praktis dengan standar arsitektur cloud terpercaya.'
             )}
           </p>
-        </div>
+        </motion.div>
 
-        {/* 2-Column Story & Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
+        {/* 2-Column Story & Details with Scroll Drop */}
+        <motion.div 
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16"
+        >
           
           {/* Left: Bio narrative */}
-          <div className="lg:col-span-7 bg-slate-900/70 shiny-border rounded-2xl p-6 sm:p-8 backdrop-blur-md">
+          <div className="lg:col-span-7 bg-[#0a120e]/80 shiny-border rounded-2xl p-6 sm:p-8 backdrop-blur-md">
             <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-              <span className="w-2 h-6 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-sm" />
+              <span className="w-2 h-6 bg-gradient-to-b from-emerald-400 to-lime-400 rounded-sm" />
               <span>{t('Professional Journey & Vision', 'Perjalanan Profesional & Visi')}</span>
             </h3>
             
@@ -100,87 +137,74 @@ export function AboutSection({ onOpenResume }: AboutSectionProps) {
             </div>
 
             {/* Quick bullets */}
-            <div className="mt-6 pt-6 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-300">
+            <div className="mt-6 pt-6 border-t border-emerald-950/80 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-300">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>{t('Least-Privilege Role Engineering', 'Rekayasa Peran Least-Privilege')}</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span>{t('Burp Suite Practitioner Workflows', 'Alur Kerja Praktisi Burp Suite')}</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>{t('PortSwigger SSRF Practitioner', 'Praktisi PortSwigger SSRF')}</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span>{t('Keycloak 24 OIDC / RBAC Portals', 'Portal OIDC / RBAC Keycloak 24')}</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>{t('Keycloak PKCE OIDC Setup', 'Implementasi Keycloak PKCE OIDC')}</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span>{t('NDPR & CIS Benchmark Compliance', 'Kepatuhan Standar NDPR & CIS')}</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>{t('NDPC Data Privacy Audit', 'Audit Privasi Data NDPC')}</span>
               </div>
             </div>
           </div>
 
-          {/* Right: Key Info Snapshot Card */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
-            <div className="bg-slate-900/70 shiny-border rounded-2xl p-6 backdrop-blur-md">
-              <h3 className="text-lg font-bold text-white mb-4 pb-2 border-b border-slate-800">
-                {t('Security Profile Snapshot', 'Ringkasan Profil Keamanan')}
-              </h3>
+          {/* Right: Quick facts & Work Ready Badge */}
+          <div className="lg:col-span-5 space-y-6">
+            
+            {/* Ready to Work Card */}
+            <div className="bg-[#0a120e]/80 shiny-border rounded-2xl p-6 backdrop-blur-md">
+              <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs font-semibold mb-3">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>OPERATIONAL STATUS // READY FOR WORK</span>
+              </div>
+              <h4 className="text-lg font-bold text-white mb-2">
+                {t('Immediate Availability For Security Engagements', 'Ketersediaan Langsung Untuk Posisi Keamanan')}
+              </h4>
+              <p className="text-xs sm:text-sm text-slate-400 mb-4 leading-relaxed">
+                {t(
+                  'Actively seeking full-time Cloud Security Analyst roles, Offensive Web Pentesting positions, or Security Internships. Highly motivated to solve complex authentication, cloud infrastructure, and compliance challenges.',
+                  'Aktif mencari posisi Analis Keamanan Cloud purnawaktu, posisi Pentesting Web Ofensif, atau Magang Keamanan.'
+                )}
+              </p>
 
-              <div className="space-y-4 text-sm">
-                <div>
-                  <span className="text-xs text-slate-400 block">{t('Full Name', 'Nama Lengkap')}</span>
-                  <span className="font-semibold text-slate-200">{PERSONAL_INFO.fullName}</span>
+              <div className="space-y-2 text-xs font-mono text-slate-300 border-t border-emerald-950/80 pt-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">{t('Target Roles:', 'Posisi Dituju:')}</span>
+                  <span className="text-emerald-300 font-semibold">Cloud Sec Analyst / AppSec / Intern</span>
                 </div>
-
-                <div>
-                  <span className="text-xs text-slate-400 block">{t('Location & Mobility', 'Lokasi & Mobilitas')}</span>
-                  <div className="flex items-center gap-1.5 text-slate-200">
-                    <MapPin className="w-4 h-4 text-cyan-400 shrink-0" />
-                    <span>{PERSONAL_INFO.location}</span>
-                  </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">{t('Deployment:', 'Penempatan:')}</span>
+                  <span className="text-white">Remote / Hybrid / On-Site</span>
                 </div>
-
-                <div>
-                  <span className="text-xs text-slate-400 block">{t('Direct Email', 'Email Kontak')}</span>
-                  <div className="flex items-center gap-1.5 text-slate-200 font-mono text-xs sm:text-sm">
-                    <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
-                    <a href={`mailto:${PERSONAL_INFO.email}`} className="hover:text-cyan-400 transition-colors">
-                      {PERSONAL_INFO.email}
-                    </a>
-                  </div>
-                </div>
-
-                <div>
-                  <span className="text-xs text-slate-400 block">{t('Primary Education', 'Pendidikan Utama')}</span>
-                  <span className="text-slate-200">
-                    Smart Professional in Ethical Hacking · Aptech Computer Education
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-xs text-slate-400 block">{t('Availability Status', 'Status Ketersediaan')}</span>
-                  <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 rounded-md px-2.5 py-1 mt-1 font-medium">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    {PERSONAL_INFO.availability}
-                  </span>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">{t('Location:', 'Lokasi:')}</span>
+                  <span className="text-white">{PERSONAL_INFO.location}</span>
                 </div>
               </div>
 
               {/* View CV trigger */}
-              <div className="mt-6 pt-4 border-t border-slate-800">
+              <div className="mt-6 pt-4 border-t border-emerald-950">
                 <button
                   onClick={onOpenResume}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl transition-all"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-slate-950 font-bold bg-gradient-to-r from-emerald-400 via-teal-300 to-lime-300 hover:from-emerald-300 hover:to-lime-300 rounded-xl transition-all cursor-pointer shadow-md shadow-emerald-950/50"
                 >
-                  <FileText className="w-4 h-4 text-cyan-400" />
+                  <FileText className="w-4 h-4 text-slate-950" />
                   <span>{t('Open Full Resume & Credentials', 'Buka Resume & Kredensial Lengkap')}</span>
                 </button>
               </div>
             </div>
 
             {/* Quote card */}
-            <div className="bg-gradient-to-br from-blue-950/40 to-slate-900/60 shiny-border rounded-2xl p-5 text-xs sm:text-sm text-slate-300 italic">
+            <div className="bg-gradient-to-br from-emerald-950/30 to-[#0a120e]/80 shiny-border rounded-2xl p-5 text-xs sm:text-sm text-slate-300 italic border-emerald-950">
               &ldquo;{t(
                 'Security is not a checkbox product; it is an active discipline of understanding authorization trust boundaries, validating access policies, and assuming breach.',
                 'Keamanan bukan sekadar daftar centang; ini adalah disiplin berkelanjutan dalam memahami batasan kepercayaan otorisasi dan memvalidasi setiap kebijakan akses.'
@@ -188,30 +212,43 @@ export function AboutSection({ onOpenResume }: AboutSectionProps) {
             </div>
           </div>
 
-        </div>
+        </motion.div>
 
-        {/* 4 Core Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* 4 Core Pillars Grid with Sequential Stagger (Appearing One by One) */}
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
           {corePillars.map((pillar, idx) => {
             const IconComponent = pillar.icon;
             return (
-              <div
+              <motion.div
                 key={idx}
-                className="group bg-slate-900/60 shiny-border rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5"
+                variants={itemVariants}
+                className="group bg-[#0a120e]/70 shiny-border rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 flex flex-col justify-between"
               >
-                <div className="w-12 h-12 rounded-xl bg-blue-950/70 border border-blue-800/60 flex items-center justify-center text-cyan-400 mb-4 group-hover:scale-110 group-hover:bg-blue-900/70 transition-all">
-                  <IconComponent className="w-6 h-6" />
+                <div>
+                  <div className="w-12 h-12 rounded-xl bg-emerald-950/80 border border-emerald-800/70 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-110 group-hover:bg-emerald-900/80 transition-all">
+                    <IconComponent className="w-6 h-6" />
+                  </div>
+                  <h4 className="text-base font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors">
+                    {pillar.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                    {pillar.desc}
+                  </p>
                 </div>
-                <h4 className="text-base font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
-                  {pillar.title}
-                </h4>
-                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                  {pillar.desc}
-                </p>
-              </div>
+                <div className="mt-4 pt-3 border-t border-emerald-950/80 flex items-center justify-between text-[11px] font-mono text-emerald-400/80">
+                  <span>PILLAR 0{idx + 1}</span>
+                  <span className="text-emerald-400">ACTIVE</span>
+                </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
       </div>
     </section>

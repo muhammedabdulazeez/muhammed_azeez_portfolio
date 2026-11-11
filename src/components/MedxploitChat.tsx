@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, FormEvent, KeyboardEvent } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Bot, 
   User, 
@@ -14,7 +15,10 @@ import {
   Flame, 
   Lock, 
   ExternalLink,
-  ChevronRight
+  ChevronRight,
+  X,
+  Minimize2,
+  Maximize2
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -49,7 +53,7 @@ const STARTER_PROMPTS = [
   {
     title: 'Interactive CTF Challenge',
     prompt: 'Give me a simulated CTF web application scenario. Describe a vulnerable login and profile system and challenge me to find the flaw.',
-    category: 'Hands-on Practice',
+    category: 'Hands-on CTF',
   },
   {
     title: 'GCP VPC Perimeter Defense',
@@ -58,7 +62,12 @@ const STARTER_PROMPTS = [
   },
 ];
 
-export function MedxploitChat() {
+interface MedxploitDrawerProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function MedxploitDrawer({ isOpen, onClose }: MedxploitDrawerProps) {
   const { t } = useLanguage();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -72,7 +81,7 @@ I specialize in:
 - **Zero-Trust Identity**: Keycloak 24, OAuth 2.0 / OIDC Authorization Code with PKCE, and TOTP MFA.
 - **Audit & Compliance**: CIS benchmarks and NDPC / NDPR 2019 regulatory governance.
 
-Pick a security topic below or ask me any concept you want to master. What are we investigating today?`,
+Pick an instant topic above or ask me any question about cybersecurity, offensive pentesting, or Muhammed's verified skills!`,
       timestamp: 'ONLINE',
     },
   ]);
@@ -85,6 +94,25 @@ Pick a security topic below or ask me any concept you want to master. What are w
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Close on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+      setTimeout(() => inputRef.current?.focus(), 250);
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
+  // Scroll to bottom on new messages
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
@@ -163,7 +191,7 @@ Pick a security topic below or ask me any concept you want to master. What are w
     handleSendMessage();
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDownInput = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
@@ -179,30 +207,30 @@ Pick a security topic below or ask me any concept you want to master. What are w
   const handleClear = () => {
     setMessages([
       {
-        id: 'welcome-reset',
+        id: `reset-${Date.now()}`,
         role: 'model',
-        content: `Session buffer wiped. **Medxploit** ready for new security inquiry. Type your question or select a prompt below.`,
+        content: 'Console buffer purged. Ready for fresh cybersecurity instruction or technical analysis.',
         timestamp: 'RESET',
       },
     ]);
     setErrorMsg(null);
   };
 
-  // Helper function to render markdown-like formatting (code blocks, bold, lists)
-  const renderFormattedContent = (content: string) => {
+  // Markdown renderer helper
+  const renderMessageContent = (content: string) => {
     const lines = content.split('\n');
+    const elements: React.ReactNode[] = [];
     let inCodeBlock = false;
     let codeBuffer: string[] = [];
-    const elements: React.ReactNode[] = [];
 
     lines.forEach((line, idx) => {
+      // Code blocks
       if (line.startsWith('```')) {
         if (inCodeBlock) {
-          // Close code block
           const codeText = codeBuffer.join('\n');
           elements.push(
-            <div key={`code-${idx}`} className="my-2.5 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 font-mono text-xs">
-              <div className="flex items-center justify-between px-3 py-1.5 bg-slate-900 border-b border-slate-800 text-[11px] text-cyan-400">
+            <div key={`code-${idx}`} className="my-2.5 rounded-xl overflow-hidden bg-[#050807] border border-emerald-950 font-mono text-xs">
+              <div className="flex items-center justify-between px-3 py-1.5 bg-[#0b100d] border-b border-emerald-950 text-[11px] text-emerald-400">
                 <span>TERMINAL PAYLOAD / CODE</span>
                 <button
                   type="button"
@@ -228,7 +256,6 @@ Pick a security topic below or ask me any concept you want to master. What are w
           codeBuffer = [];
           inCodeBlock = false;
         } else {
-          // Open code block
           inCodeBlock = true;
           codeBuffer = [];
         }
@@ -243,7 +270,7 @@ Pick a security topic below or ask me any concept you want to master. What are w
       // Headers
       if (line.startsWith('### ')) {
         elements.push(
-          <h4 key={idx} className="text-sm font-bold text-cyan-300 mt-3 mb-1">
+          <h4 key={idx} className="text-sm font-bold text-emerald-300 mt-3 mb-1">
             {line.replace('### ', '')}
           </h4>
         );
@@ -252,7 +279,7 @@ Pick a security topic below or ask me any concept you want to master. What are w
       if (line.startsWith('## ')) {
         elements.push(
           <h3 key={idx} className="text-base font-extrabold text-white mt-3.5 mb-1.5 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
             <span>{line.replace('## ', '')}</span>
           </h3>
         );
@@ -264,7 +291,7 @@ Pick a security topic below or ask me any concept you want to master. What are w
         const bulletText = line.substring(2);
         elements.push(
           <div key={idx} className="flex items-start gap-2 my-1 text-xs sm:text-sm text-slate-300">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-2 shrink-0" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 shrink-0" />
             <div>{renderInlineFormatting(bulletText)}</div>
           </div>
         );
@@ -288,7 +315,6 @@ Pick a security topic below or ask me any concept you want to master. What are w
     return elements;
   };
 
-  // Inline bold and code formatting helper
   const renderInlineFormatting = (text: string) => {
     const parts = text.split(/(\*\*.*?\*\*|`.*?`)/g);
     return parts.map((part, i) => {
@@ -301,7 +327,7 @@ Pick a security topic below or ask me any concept you want to master. What are w
       }
       if (part.startsWith('`') && part.endsWith('`')) {
         return (
-          <code key={i} className="bg-slate-950 px-1.5 py-0.5 rounded text-cyan-300 font-mono text-[11px] border border-slate-800">
+          <code key={i} className="bg-[#050807] px-1.5 py-0.5 rounded text-emerald-300 font-mono text-[11px] border border-emerald-950">
             {part.slice(1, -1)}
           </code>
         );
@@ -311,239 +337,199 @@ Pick a security topic below or ask me any concept you want to master. What are w
   };
 
   return (
-    <section id="medxploit" className="py-24 relative z-10 bg-slate-950/60 border-t border-slate-800/80">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/50 text-xs font-mono text-cyan-400 mb-3 shadow-md shadow-cyan-950/30">
-            <Bot className="w-4 h-4 animate-pulse text-cyan-400" />
-            <span className="font-bold tracking-wider">AI CYBERSECURITY MENTOR</span>
-          </div>
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 overflow-hidden flex justify-end">
+          {/* Backdrop Blur Overlay */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/75 backdrop-blur-sm"
+          />
 
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Meet <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">Medxploit</span>
-          </h2>
-          <p className="text-slate-400 mt-3 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
-            {t(
-              'Your interactive AI cybersecurity instructor powered by Gemini 3.8. Ask questions about cloud defense, exploit labs, IAM zero-trust, or test your skills with dynamic CTF questions.',
-              'Instruktur keamanan siber AI interaktif Anda ditenagai Gemini 3.8. Tanyakan tentang pertahanan cloud, lab eksploitasi, IAM zero-trust, atau uji kemampuan dengan simulasi CTF dinamis.'
-            )}
-          </p>
-        </div>
-
-        {/* Quick Topic Starter Chips */}
-        <div className="mb-6">
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-400 mb-3">
-            <Flame className="w-3.5 h-3.5 text-amber-400" />
-            <span>{t('Instant Exploration Topics:', 'Topik Pembelajaran Cepat:')}</span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-            {STARTER_PROMPTS.map((starter, sIdx) => (
-              <button
-                key={sIdx}
-                disabled={isLoading}
-                onClick={() => handleSendMessage(starter.prompt)}
-                className="group flex flex-col text-left p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900/90 shiny-border transition-all cursor-pointer disabled:opacity-50"
-              >
-                <div className="flex items-center justify-between w-full mb-1">
-                  <span className="text-[10px] font-mono font-semibold text-cyan-400 bg-blue-950/80 px-2 py-0.5 rounded border border-blue-800/80">
-                    {starter.category}
-                  </span>
-                  <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all" />
+          {/* Sliding Side Panel Drawer */}
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 28, stiffness: 280 }}
+            className="relative w-full max-w-2xl h-full bg-[#070b09] border-l border-emerald-950/90 shadow-2xl z-10 flex flex-col justify-between"
+          >
+            {/* Drawer Header */}
+            <div className="px-5 py-4 border-b border-emerald-950 bg-[#09100c] flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-lime-400 p-0.5 flex items-center justify-center shadow-lg shadow-emerald-950/60">
+                  <div className="w-full h-full bg-[#070b09] rounded-[10px] flex items-center justify-center">
+                    <Bot className="w-5 h-5 text-emerald-400 animate-pulse" />
+                  </div>
                 </div>
-                <span className="text-xs font-semibold text-white group-hover:text-cyan-300 transition-colors">
-                  {starter.title}
-                </span>
-                <span className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">
-                  {starter.prompt}
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Main Chat Interface Container */}
-        <div className="shiny-border rounded-2xl overflow-hidden bg-slate-950/90 shadow-2xl backdrop-blur-2xl flex flex-col h-[620px] sm:h-[680px]">
-          
-          {/* Chat Header Bar */}
-          <div className="px-4 sm:px-6 py-3.5 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 p-0.5 flex items-center justify-center shadow-md shadow-cyan-500/20">
-                <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                  <Bot className="w-5 h-5 text-cyan-400" />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="text-sm sm:text-base font-bold text-white tracking-wide">
-                    Medxploit Neural Core
-                  </h3>
-                  <span className="flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/80">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>GEMINI 3.8 FLASH</span>
-                  </span>
-                </div>
-                <p className="text-[11px] text-slate-400 font-mono">
-                  Multi-Turn Cyber Defense & Offensive Security Mentor
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handleClear}
-                className="p-1.5 sm:px-2.5 sm:py-1 rounded-lg bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 text-xs font-mono flex items-center gap-1 transition-colors cursor-pointer"
-                title="Reset Conversation"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Reset</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Messages Scrollable Thread */}
-          <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-5">
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex gap-3 max-w-[92%] sm:max-w-[85%] ${
-                  msg.role === 'user' ? 'ml-auto flex-row-reverse' : 'mr-auto'
-                }`}
-              >
-                {/* Avatar Icon */}
-                <div
-                  className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 shadow-md ${
-                    msg.role === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-slate-900 border border-cyan-500/50 text-cyan-400'
-                  }`}
-                >
-                  {msg.role === 'user' ? (
-                    <User className="w-4 h-4" />
-                  ) : (
-                    <Bot className="w-4 h-4 text-cyan-400" />
-                  )}
-                </div>
-
-                {/* Message Body */}
-                <div
-                  className={`rounded-2xl p-4 text-xs sm:text-sm shadow-md ${
-                    msg.role === 'user'
-                      ? 'bg-gradient-to-r from-blue-700 to-blue-600 text-white rounded-tr-none'
-                      : 'bg-slate-900/85 border border-slate-800/90 text-slate-200 rounded-tl-none shiny-border'
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-3 text-[10px] font-mono text-slate-400 mb-1.5 pb-1 border-b border-slate-800/60">
-                    <span className="font-semibold text-cyan-300">
-                      {msg.role === 'user' ? 'Operator' : 'Medxploit AI'}
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base font-bold text-white font-mono flex items-center gap-1.5">
+                      <span>MEDXPLOIT</span>
+                      <span className="text-emerald-400">AI</span>
+                    </h3>
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-[10px] font-mono text-emerald-400">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>ONLINE</span>
                     </span>
-                    <span>{msg.timestamp}</span>
                   </div>
+                  <p className="text-[11px] font-mono text-slate-400">
+                    Gemini 3.8 Flash Neural Core · Cyber Mentor
+                  </p>
+                </div>
+              </div>
 
-                  {/* Render Message Content with Code block and markdown support */}
-                  <div className="space-y-1">
-                    {msg.role === 'user' ? (
-                      <p className="whitespace-pre-wrap leading-relaxed">{msg.content}</p>
-                    ) : (
-                      renderFormattedContent(msg.content)
-                    )}
-                  </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleClear}
+                  className="p-2 text-slate-400 hover:text-white bg-[#0e1612] hover:bg-emerald-950/70 border border-emerald-950 rounded-lg transition-colors cursor-pointer"
+                  title="Purge session memory"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="p-2 text-slate-400 hover:text-white bg-[#0e1612] hover:bg-red-950/60 border border-emerald-950 rounded-lg transition-colors cursor-pointer"
+                  title="Close panel (Esc)"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
 
-                  {/* Copy message button for AI replies */}
+            {/* Quick Starter Chips Header */}
+            <div className="px-5 py-3 border-b border-emerald-950/80 bg-[#070b09] shrink-0">
+              <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400 mb-2">
+                <Flame className="w-3.5 h-3.5 text-lime-400" />
+                <span>{t('Instant Exploration Topics:', 'Topik Pembelajaran Cepat:')}</span>
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-1.5 scrollbar-thin">
+                {STARTER_PROMPTS.map((starter, sIdx) => (
+                  <button
+                    key={sIdx}
+                    disabled={isLoading}
+                    onClick={() => handleSendMessage(starter.prompt)}
+                    className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0e1612] hover:bg-[#14231b] border border-emerald-950 hover:border-emerald-500/50 text-xs font-mono text-slate-300 hover:text-emerald-300 transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    <span className="text-[10px] text-emerald-400 font-bold">[{starter.category}]</span>
+                    <span>{starter.title}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Chat Messages Body */}
+            <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-[#050807]/90 scrollbar-thin">
+              {messages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`flex gap-3 text-xs sm:text-sm ${
+                    msg.role === 'user' ? 'justify-end' : 'justify-start'
+                  }`}
+                >
                   {msg.role === 'model' && (
-                    <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-end">
-                      <button
-                        type="button"
-                        onClick={() => handleCopy(msg.id, msg.content)}
-                        className="flex items-center gap-1 text-[11px] font-mono text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer"
-                      >
-                        {copiedId === msg.id ? (
-                          <>
-                            <Check className="w-3 h-3 text-emerald-400" />
-                            <span className="text-emerald-400">Copied</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-3 h-3" />
-                            <span>Copy Answer</span>
-                          </>
-                        )}
-                      </button>
+                    <div className="w-8 h-8 rounded-lg bg-emerald-950/90 border border-emerald-800/80 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
+                      <Bot className="w-4 h-4" />
+                    </div>
+                  )}
+
+                  <div
+                    className={`max-w-[85%] rounded-2xl px-4 py-3 shadow-md ${
+                      msg.role === 'user'
+                        ? 'bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 text-slate-950 font-medium rounded-tr-none'
+                        : 'bg-[#0b120e] text-slate-200 border border-emerald-950 rounded-tl-none font-sans'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-3 pb-1 mb-1.5 border-b border-emerald-950/40 text-[10px] font-mono">
+                      <span className={msg.role === 'user' ? 'text-slate-950 font-bold' : 'text-emerald-400 font-bold'}>
+                        {msg.role === 'user' ? 'OPERATOR' : 'MEDXPLOIT CORE'}
+                      </span>
+                      <span className={msg.role === 'user' ? 'text-slate-900' : 'text-slate-400'}>
+                        {msg.timestamp}
+                      </span>
+                    </div>
+
+                    <div className="leading-relaxed">
+                      {msg.role === 'user' ? msg.content : renderMessageContent(msg.content)}
+                    </div>
+                  </div>
+
+                  {msg.role === 'user' && (
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-300 shrink-0 mt-0.5">
+                      <User className="w-4 h-4" />
                     </div>
                   )}
                 </div>
-              </div>
-            ))}
+              ))}
 
-            {/* Loading Indicator */}
-            {isLoading && (
-              <div className="flex gap-3 max-w-[85%] mr-auto animate-in fade-in duration-200">
-                <div className="w-8 h-8 rounded-xl bg-slate-900 border border-cyan-500/50 flex items-center justify-center text-cyan-400 shrink-0">
-                  <Bot className="w-4 h-4 animate-spin" />
-                </div>
-                <div className="rounded-2xl rounded-tl-none p-4 bg-slate-900/85 border border-slate-800 shiny-border">
-                  <div className="flex items-center gap-2 text-xs font-mono text-cyan-400">
-                    <Sparkles className="w-3.5 h-3.5 animate-pulse text-cyan-300" />
-                    <span>Medxploit analyzing security telemetry...</span>
+              {isLoading && (
+                <div className="flex gap-3 text-xs sm:text-sm justify-start">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-950/90 border border-emerald-800/80 flex items-center justify-center text-emerald-400 shrink-0">
+                    <Bot className="w-4 h-4 animate-spin" />
                   </div>
-                  <div className="flex items-center gap-1.5 mt-2">
-                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-                    <span className="w-2 h-2 rounded-full bg-blue-400 animate-ping delay-100" />
-                    <span className="w-2 h-2 rounded-full bg-indigo-400 animate-ping delay-200" />
+                  <div className="bg-[#0b120e] text-slate-300 border border-emerald-950 rounded-2xl rounded-tl-none px-4 py-3 font-mono flex items-center gap-2 shadow-md">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                    <span>Analyzing threat vectors with Gemini neural core...</span>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            <div ref={scrollRef} />
-          </div>
-
-          {/* Chat Input Bar */}
-          <div className="p-3 sm:p-4 bg-slate-900/90 border-t border-slate-800">
-            {errorMsg && (
-              <div className="mb-2.5 px-3 py-1.5 rounded-lg bg-red-950/80 border border-red-500/50 text-[11px] font-mono text-red-300 flex items-center gap-1.5">
-                <ShieldAlert className="w-3.5 h-3.5 text-red-400 shrink-0" />
-                <span className="truncate">{errorMsg}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="flex items-center gap-2">
-              <input
-                ref={inputRef}
-                type="text"
-                disabled={isLoading}
-                value={inputVal}
-                onChange={(e) => setInputVal(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={
-                  isLoading
-                    ? 'Medxploit neural reasoning in progress...'
-                    : 'Ask about SSRF, IAM Least Privilege, Keycloak OIDC, CIS Benchmarks, or request a CTF challenge...'
-                }
-                className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400 placeholder:text-slate-600 transition-colors disabled:opacity-50"
-              />
-
-              <button
-                type="submit"
-                disabled={isLoading || !inputVal.trim()}
-                className="px-4 sm:px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 disabled:opacity-40 text-white font-semibold text-xs sm:text-sm flex items-center gap-1.5 shadow-md shadow-cyan-500/25 transition-all cursor-pointer shrink-0"
-              >
-                <span>Send</span>
-                <Send className="w-3.5 h-3.5" />
-              </button>
-            </form>
-
-            <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 mt-2 px-1">
-              <span>Enter to dispatch • Multi-turn conversational memory active</span>
-              <span className="hidden sm:inline">Protected by Gemini 3.8 Security Matrix</span>
+              <div ref={scrollRef} />
             </div>
-          </div>
 
+            {/* Input Bar Footer */}
+            <div className="p-4 border-t border-emerald-950 bg-[#09100c] shrink-0">
+              <form onSubmit={handleSubmit} className="relative flex items-center gap-2">
+                <div className="relative flex-1">
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={inputVal}
+                    disabled={isLoading}
+                    onChange={(e) => setInputVal(e.target.value)}
+                    onKeyDown={handleKeyDownInput}
+                    placeholder="Ask about SSRF, IAM, PortSwigger labs, CTFs..."
+                    className="w-full bg-[#050807] border border-emerald-950 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/30 rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder:text-slate-600 font-mono transition-all pr-10"
+                  />
+                  {inputVal && (
+                    <button
+                      type="button"
+                      onClick={() => setInputVal('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={!inputVal.trim() || isLoading}
+                  className="px-4 py-3 bg-gradient-to-r from-emerald-500 via-teal-400 to-lime-400 hover:from-emerald-400 hover:to-lime-300 text-slate-950 font-bold rounded-xl shadow-md shadow-emerald-950/50 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shrink-0 flex items-center gap-1.5"
+                >
+                  <Send className="w-4 h-4" />
+                  <span className="hidden sm:inline text-xs font-mono">SEND</span>
+                </button>
+              </form>
+
+              <div className="mt-2.5 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                <span>Press Enter to send · Powered by Google Gemini</span>
+                <span className="text-emerald-400/90 font-semibold">Strict Ethical Guidelines Enforced</span>
+              </div>
+            </div>
+
+          </motion.div>
         </div>
-
-      </div>
-    </section>
+      )}
+    </AnimatePresence>
   );
 }
+
+// Default export for backward compatibility
+export const MedxploitChat = MedxploitDrawer;

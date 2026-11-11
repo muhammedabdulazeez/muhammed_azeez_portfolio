@@ -35,22 +35,24 @@ export interface Certificate {
 export interface SkillCategory {
   title: string;
   description: string;
+  tools: string[];
   skills: {
     name: string;
-    level: number;
     icon: string;
     details: string;
+    impact: string;
   }[];
 }
 
 export const PERSONAL_INFO = {
   name: 'Muhammed Abdulazeez',
   fullName: 'Muhammed Oluwatimileyin Abdulazeez',
-  role: 'Cloud Security Analyst & Offensive Security Specialist',
-  bio: 'Results-driven Cloud Security Analyst and Offensive Security Specialist with proven expertise in Zero-Trust Identity & Access Management (IAM), multi-cloud perimeter engineering (AWS & Google Cloud), and web application penetration testing. Experienced in identifying critical vulnerabilities, designing resilient defense-in-depth architectures, and ensuring regulatory GRC compliance.',
+  role: 'Cloud Security Analyst · Offensive AppSec · IAM Specialist',
+  headline: 'Securing Cloud Infrastructures, Web Applications & Identity Perimeters',
+  bio: 'I help organizations discover and remediate security vulnerabilities before threat actors exploit them. Practical, hands-on proficiency in AWS IAM least-privilege policies, Google Cloud VPC perimeter firewalls, Keycloak Zero-Trust MFA, and offensive web application testing with Burp Suite. Eager to bring immediate value and strong work ethic as a Full-Time Security Analyst, Junior Engineer, Penetration Tester, or Security Intern (Open to Remote & Worldwide Relocation).',
   email: 'muhammedabdulazeez770@gmail.com',
-  location: 'Lagos, Nigeria (Open to Worldwide Remote)',
-  availability: 'Available for Full-Time Roles & Consulting',
+  location: 'Lagos, Nigeria · Open to Global Remote & Relocation',
+  availability: '🟢 Ready to Work: Open to Full-Time, Junior Roles, or Internships (Immediate Availability)',
   portraitImage: '/assets/aistudio/portrait_d5fda6fa.jpg',
   workstationImage: '/assets/aistudio/WhatsApp_Image_2026-11-10_at_12.27.23_464e322f.jpeg',
   hackerAiImage: '/src/assets/images/hacker_ai_avatar_1794235471805.jpg',
@@ -61,10 +63,10 @@ export const PERSONAL_INFO = {
   tryhackme: 'https://tryhackme.com/p/Muhammedazeez770',
   credly: 'https://www.credly.com/users/muhammed-abdul-azeez.4c97459e',
   stats: [
-    { label: 'Verified Certifications', value: '11+' },
-    { label: 'Security Labs Solved', value: '78+' },
-    { label: 'Least-Privilege Focus', value: '100%' },
-    { label: 'GRC Training Hours', value: '34h+' },
+    { label: 'Verified Credentials', value: '11+' },
+    { label: 'Security Labs & CTFs', value: '78+' },
+    { label: 'Zero-Trust IAM Deployed', value: '100%' },
+    { label: 'Immediate Availability', value: 'Open' },
   ]
 };
 
@@ -373,42 +375,121 @@ export const CERTIFICATES: Certificate[] = [
 
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
-    title: 'Cloud Security & Architecture',
-    description: 'Designing least-privilege environments and securing distributed cloud workloads.',
+    title: 'Cloud Security & Perimeter Architecture',
+    description: 'Securing multi-cloud footprints, hardening IAM boundaries, and preventing lateral movement.',
+    tools: ['Google Cloud Platform', 'AWS IAM', 'VPC Firewalls', 'Cloud Logging', 'Security Command Center', 'Policy Analyzer'],
     skills: [
-      { name: 'Google Cloud Platform (GCP)', level: 92, icon: 'Cloud', details: 'IAM custom roles, VPC firewalls, Cloud Logging, Security Command Center' },
-      { name: 'Amazon Web Services (AWS)', level: 88, icon: 'Server', details: 'AWS IAM policies, troubleshooting, shared responsibility model, CloudTrail' },
-      { name: 'VPC & Perimeter Defense', level: 90, icon: 'Shield', details: 'Ingress/Egress rules, network segmentation, stateful inspection, flow logs' },
-      { name: 'Cloud Security Posture (CSPM)', level: 87, icon: 'Activity', details: 'Security Health Analytics, attack exposure scoring, CIS benchmarks' }
+      { 
+        name: 'Google Cloud Platform (GCP)', 
+        icon: 'Cloud', 
+        details: 'Custom IAM roles, VPC perimeter firewalls, Cloud Logging telemetry analysis, Security Health Analytics.',
+        impact: 'Remediates public port exposures and prevents privilege escalation across cloud projects.'
+      },
+      { 
+        name: 'Amazon Web Services (AWS)', 
+        icon: 'Server', 
+        details: 'Least-privilege IAM policies, permission boundaries, IAM policy troubleshooting, CloudTrail logging.',
+        impact: 'Eliminates wildcard administrative policies and ensures compliance with Shared Responsibility.'
+      },
+      { 
+        name: 'VPC & Perimeter Firewalls', 
+        icon: 'Shield', 
+        details: 'Stateful ingress/egress filtering, target tag isolation, network segmentation, packet disposition auditing.',
+        impact: 'Isolates sensitive databases and internal microservices from the public internet.'
+      },
+      { 
+        name: 'Cloud Security Posture (CSPM)', 
+        icon: 'Activity', 
+        details: 'Automated vulnerability discovery via Google SCC, CIS benchmark compliance, attack exposure score evaluation.',
+        impact: 'Ensures continuous visibility of configuration drift and open management ports.'
+      }
     ]
   },
   {
-    title: 'Offensive Security & AppSec',
-    description: 'Methodical penetration testing, vulnerability discovery, and exploit verification.',
+    title: 'Offensive Security & Web AppSec',
+    description: 'Methodical penetration testing, vulnerability discovery, and exploit verification before attackers strike.',
+    tools: ['Burp Suite Pro', 'Repeater & Intruder', 'Burp Collaborator', 'PortSwigger Academy', 'Nmap', 'Kali Linux'],
     skills: [
-      { name: 'Burp Suite Professional', level: 95, icon: 'Crosshair', details: 'Repeater, Intruder, Collaborator, custom extension workflows, proxy inspection' },
-      { name: 'Web Vulnerabilities (OWASP)', level: 94, icon: 'Zap', details: 'SSRF, XSS, Cache Deception, Auth Bypass, CSRF, IDOR, SQL Injection' },
-      { name: 'WebSocket & API Security', level: 89, icon: 'Radio', details: 'Cross-site WebSocket hijacking, REST API fuzzing, JWT manipulation' },
-      { name: 'Linux / Kali Penetration Testing', level: 91, icon: 'Terminal', details: 'Nmap, Metasploit, Wireshark, Bash scripting, system reconnaissance' }
+      { 
+        name: 'Burp Suite Professional', 
+        icon: 'Crosshair', 
+        details: 'Advanced manual testing via Repeater, automated fuzzing via Intruder, and out-of-band testing with Collaborator.',
+        impact: 'Dissects complex request workflows, authentication bypasses, and multi-step logic flaws.'
+      },
+      { 
+        name: 'OWASP Top 10 Web Vulnerabilities', 
+        icon: 'Zap', 
+        details: 'Server-Side Request Forgery (SSRF), Cross-Site Scripting (XSS), Web Cache Deception, IDOR, SQL Injection, CSRF.',
+        impact: 'Proactively identifies exploitable vulnerabilities in client-facing web applications and APIs.'
+      },
+      { 
+        name: 'WebSocket & API Security', 
+        icon: 'Radio', 
+        details: 'Cross-site WebSocket hijacking, REST endpoint fuzzing, JWT token inspection, authorization header validation.',
+        impact: 'Protects real-time communications and API data flows from unauthorized tampering.'
+      },
+      { 
+        name: 'Network Reconnaissance & Linux Pentesting', 
+        icon: 'Terminal', 
+        details: 'Stealth SYN scans with Nmap, packet analysis with Wireshark, Bash & Python automation, Metasploit verification.',
+        impact: 'Maps internal attack surfaces and validates firewall rules against external port scanners.'
+      }
     ]
   },
   {
-    title: 'Identity & Access Management (IAM)',
-    description: 'Enforcing zero-trust authentication, token flows, and access control.',
+    title: 'Identity & Access Management (Zero-Trust IAM)',
+    description: 'Centralized authentication, OAuth 2.0 / OIDC flows, and multi-factor token verification.',
+    tools: ['Keycloak 24', 'OAuth 2.0 / OIDC', 'PKCE', 'TOTP MFA', 'Docker', 'JWT', 'RBAC'],
     skills: [
-      { name: 'Keycloak 24 IdP', level: 93, icon: 'Key', details: 'OIDC / OAuth 2.0 realms, confidential clients, session management' },
-      { name: 'Multi-Factor Auth (MFA / TOTP)', level: 92, icon: 'Lock', details: 'Mandatory QR authenticator onboarding, brute-force lockout detection' },
-      { name: 'Role-Based Access Control (RBAC)', level: 94, icon: 'UserCheck', details: 'Fine-grained policy enforcement, claim extraction, least privilege' },
-      { name: 'Policy Analysis & Audit', level: 88, icon: 'FileCheck', details: 'GCP Policy Analyzer queries, compliance binding verification' }
+      { 
+        name: 'Keycloak 24 Enterprise IdP', 
+        icon: 'Key', 
+        details: 'Dedicated realm architecture, client confidential onboarding, backchannel token exchange, Docker deployment.',
+        impact: 'Decouples authentication from application code and eliminates hardcoded credentials.'
+      },
+      { 
+        name: 'Multi-Factor Authentication (TOTP)', 
+        icon: 'Lock', 
+        details: 'Mandatory QR authenticator registration, time-based one-time password verification, brute-force defense.',
+        impact: 'Stops credential-stuffing and unauthorized logins even when primary passwords are leaked.'
+      },
+      { 
+        name: 'Role-Based Access Control (RBAC)', 
+        icon: 'UserCheck', 
+        details: 'Fine-grained policy enforcement decorators, token claim validation, least-privilege role assignment.',
+        impact: 'Blocks horizontal and vertical privilege escalation between tenant user tiers.'
+      },
+      { 
+        name: 'OAuth 2.0 / OIDC Authorization Code + PKCE', 
+        icon: 'FileCheck', 
+        details: 'Cryptographic code_verifier and code_challenge implementation for single-page applications and mobile clients.',
+        impact: 'Prevents authorization code interception on untrusted public client browsers.'
+      }
     ]
   },
   {
     title: 'Governance, Risk & Compliance (GRC)',
-    description: 'Translating regulatory frameworks into enforceable technical controls.',
+    description: 'Aligning technical architectures with data privacy laws and recognized industry security benchmarks.',
+    tools: ['NDPC / NDPR 2019', 'CIS Benchmarks', 'ISO 27001 Controls', 'Risk Assessment', 'Audit Logs'],
     skills: [
-      { name: 'NDPC / NDPR 2019', level: 88, icon: 'Scale', details: 'Nigeria Data Protection Regulation compliance, data subject rights' },
-      { name: 'Security Risk Assessment', level: 86, icon: 'AlertTriangle', details: 'Threat modeling, vulnerability impact quantification, mitigation planning' },
-      { name: 'CIS Benchmark Auditing', level: 89, icon: 'CheckCircle2', details: 'Posture hardening, audit log trails, non-compliance triage' }
+      { 
+        name: 'NDPC / NDPR 2019 Framework', 
+        icon: 'Scale', 
+        details: '34-hour certified compliance training, data subject privacy rights, lawful data processing, breach workflows.',
+        impact: 'Keeps enterprise systems compliant with Nigerian and international data protection laws.'
+      },
+      { 
+        name: 'CIS Benchmark Auditing', 
+        icon: 'CheckCircle2', 
+        details: 'Auditing cloud controls against CIS AWS/GCP benchmarks (e.g. disabling public SSH, enforcing MFA).',
+        impact: 'Produces defensible, audit-ready cloud baselines that pass third-party security audits.'
+      },
+      { 
+        name: 'Security Risk Assessment & Threat Modeling', 
+        icon: 'AlertTriangle', 
+        details: 'Evaluating threat likelihood vs impact, architectural risk prioritization, documented remediation roadmaps.',
+        impact: 'Provides leadership with clear, risk-weighted recommendations that protect business continuity.'
+      }
     ]
   }
 ];

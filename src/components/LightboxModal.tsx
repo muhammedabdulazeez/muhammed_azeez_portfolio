@@ -38,10 +38,10 @@ export function LightboxModal({ imageSrc, altText, onClose }: LightboxModalProps
       />
 
       {/* Lightbox Container */}
-      <div className="relative w-full max-w-5xl max-h-[95vh] flex flex-col z-10 bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+      <div className="relative w-full max-w-5xl max-h-[95vh] flex flex-col z-10 bg-[#050807] border border-emerald-950/80 rounded-2xl overflow-hidden shadow-2xl">
         
         {/* Top Control Bar */}
-        <div className="flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800 text-xs font-mono">
+        <div className="flex items-center justify-between px-4 py-3 bg-[#070a08] border-b border-emerald-950 text-xs font-mono">
           <div className="text-slate-300 truncate max-w-md font-semibold">
             {altText}
           </div>
@@ -49,21 +49,21 @@ export function LightboxModal({ imageSrc, altText, onClose }: LightboxModalProps
           <div className="flex items-center gap-2">
             <button
               onClick={() => setScale((s) => Math.min(s + 0.25, 3))}
-              className="p-1.5 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded transition-colors"
+              className="p-1.5 text-slate-400 hover:text-white bg-[#0e1612] hover:bg-emerald-950 rounded border border-emerald-950 transition-colors"
               title="Zoom In"
             >
               <ZoomIn className="w-4 h-4" />
             </button>
             <button
               onClick={() => setScale((s) => Math.max(s - 0.25, 0.5))}
-              className="p-1.5 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded transition-colors"
+              className="p-1.5 text-slate-400 hover:text-white bg-[#0e1612] hover:bg-emerald-950 rounded border border-emerald-950 transition-colors"
               title="Zoom Out"
             >
               <ZoomOut className="w-4 h-4" />
             </button>
             <button
               onClick={() => setScale(1)}
-              className="p-1.5 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded transition-colors"
+              className="p-1.5 text-slate-400 hover:text-white bg-[#0e1612] hover:bg-emerald-950 rounded border border-emerald-950 transition-colors"
               title="Reset Zoom"
             >
               <RotateCcw className="w-4 h-4" />
@@ -72,14 +72,14 @@ export function LightboxModal({ imageSrc, altText, onClose }: LightboxModalProps
               href={imageSrc}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-1.5 text-slate-400 hover:text-cyan-400 bg-slate-800 hover:bg-slate-700 rounded transition-colors"
+              className="p-1.5 text-slate-400 hover:text-emerald-400 bg-[#0e1612] hover:bg-emerald-950 rounded border border-emerald-950 transition-colors"
               title="Open raw image"
             >
               <ExternalLink className="w-4 h-4" />
             </a>
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-red-400 bg-slate-800 hover:bg-slate-700 rounded transition-colors ml-2"
+              className="p-1.5 text-slate-400 hover:text-red-400 bg-[#0e1612] hover:bg-red-950/50 rounded border border-emerald-950 transition-colors ml-2"
               title="Close"
             >
               <X className="w-4 h-4" />
@@ -88,7 +88,7 @@ export function LightboxModal({ imageSrc, altText, onClose }: LightboxModalProps
         </div>
 
         {/* Image viewport with pan/zoom */}
-        <div className="flex-1 overflow-auto p-4 flex items-center justify-center bg-black/60 min-h-[50vh]">
+        <div className="flex-1 overflow-auto p-4 flex items-center justify-center bg-black/70 min-h-[50vh]">
           <img
             src={imageSrc}
             alt={altText}
@@ -99,7 +99,7 @@ export function LightboxModal({ imageSrc, altText, onClose }: LightboxModalProps
         </div>
 
         {/* Bottom indicator */}
-        <div className="px-4 py-2 bg-slate-900 border-t border-slate-800 text-center text-[11px] font-mono text-slate-400">
+        <div className="px-4 py-2 bg-[#070a08] border-t border-emerald-950 text-center text-[11px] font-mono text-emerald-400/80">
           {t(
             'High-Resolution Credential Proof — Verified Official Document',
             'Bukti Kredensial Resolusi Tinggi — Dokumen Resmi Terverifikasi'
