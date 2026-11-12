@@ -32,18 +32,29 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div className="flex flex-wrap items-center justify-center gap-5 text-xs font-mono">
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-mono">
             <a href="#home" className="hover:text-emerald-400 transition-colors">{t('Home', 'Beranda')}</a>
             <a href="#about" className="hover:text-emerald-400 transition-colors">{t('About', 'Tentang')}</a>
             <a href="#skills" className="hover:text-emerald-400 transition-colors">{t('Skills', 'Keahlian')}</a>
+            <a href="#teaching" className="hover:text-emerald-400 transition-colors">{t('Teaching', 'Mengajar')}</a>
             <a href="#projects" className="hover:text-emerald-400 transition-colors">{t('Projects', 'Portofolio')}</a>
+            <a href="#writeups" className="hover:text-emerald-400 transition-colors">{t('Writeups', 'Riset')}</a>
             <a href="#certificates" className="hover:text-emerald-400 transition-colors">{t('Certificates', 'Sertifikat')}</a>
-            <a href="#terminal" className="hover:text-emerald-400 transition-colors">{t('Terminal', 'Konsol')}</a>
+            <a href="#services" className="hover:text-emerald-400 transition-colors">{t('Services', 'Layanan')}</a>
             <a href="#contact" className="hover:text-emerald-400 transition-colors">{t('Contact', 'Kontak')}</a>
           </div>
 
           {/* Social Profiles & Back to Top */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
+            <a
+              href={PERSONAL_INFO.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-slate-400 hover:text-emerald-400 bg-[#0b100d] border border-emerald-950 hover:border-emerald-500/40 rounded-lg transition-colors"
+              title="GitHub"
+            >
+              <ExternalLink className="w-4 h-4" />
+            </a>
             <a
               href={PERSONAL_INFO.credly}
               target="_blank"

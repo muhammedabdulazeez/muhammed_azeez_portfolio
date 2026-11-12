@@ -118,6 +118,36 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
             </div>
           </div>
 
+          {/* Teaching & Mentorship Experience */}
+          <div className="space-y-3">
+            <h2 className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold print:text-emerald-900 flex items-center gap-2">
+              <GraduationCap className="w-4 h-4" />
+              <span>{t('Instruction & Mentorship Experience', 'Pengalaman Mengajar & Bimbingan')}</span>
+            </h2>
+            <div className="bg-[#0b100d] p-4 rounded-xl border border-emerald-950/80 print:border-gray-300 print:bg-transparent">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+                <h3 className="text-sm font-bold text-white print:text-black">
+                  Cybersecurity Instructor & Lab Mentor — Cyber Defense Academy
+                </h3>
+                <span className="text-[11px] font-mono text-emerald-400 print:text-emerald-800">2024 - Present</span>
+              </div>
+              <p className="text-xs text-slate-300 mb-2 print:text-gray-800">
+                Trained over 120+ students and junior analysts in AWS IAM least-privilege, Google Cloud VPC perimeter defense, Burp Suite Pro web application testing, and Keycloak Zero-Trust MFA. Engineered 15+ hands-on defense labs.
+              </p>
+              <div className="text-[11px] font-mono text-slate-400 flex flex-wrap gap-2">
+                <span className="bg-[#050807] px-2 py-0.5 rounded border border-emerald-950 print:border-gray-200">
+                  Cloud Security (AWS & GCP)
+                </span>
+                <span className="bg-[#050807] px-2 py-0.5 rounded border border-emerald-950 print:border-gray-200">
+                  Burp Suite Pro AppSec
+                </span>
+                <span className="bg-[#050807] px-2 py-0.5 rounded border border-emerald-950 print:border-gray-200">
+                  Keycloak Zero-Trust IAM
+                </span>
+              </div>
+            </div>
+          </div>
+
           {/* Key Projects & Case Studies */}
           <div className="space-y-4">
             <h2 className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold print:text-emerald-900 flex items-center gap-2">

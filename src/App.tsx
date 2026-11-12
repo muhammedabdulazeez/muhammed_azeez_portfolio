@@ -7,8 +7,11 @@ import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
 import { SkillsSection } from './components/SkillsSection';
+import { TeachingSection } from './components/TeachingSection';
 import { ProjectsSection } from './components/ProjectsSection';
+import { WriteupsSection } from './components/WriteupsSection';
 import { CertificatesSection } from './components/CertificatesSection';
+import { ServicesSection } from './components/ServicesSection';
 import { InteractiveTerminal } from './components/InteractiveTerminal';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
@@ -17,7 +20,7 @@ import { ProjectModal } from './components/ProjectModal';
 import { ResumeModal } from './components/ResumeModal';
 import { LightboxModal } from './components/LightboxModal';
 import { Project, Certificate } from './data/portfolioData';
-import { Bot, Sparkles } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 export default function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -70,11 +73,23 @@ export default function App() {
           </RevealOnScroll>
 
           <RevealOnScroll threshold={0.12} delayMs={50}>
+            <TeachingSection />
+          </RevealOnScroll>
+
+          <RevealOnScroll threshold={0.12} delayMs={50}>
             <ProjectsSection onSelectProject={setSelectedProject} />
           </RevealOnScroll>
 
           <RevealOnScroll threshold={0.12} delayMs={50}>
+            <WriteupsSection />
+          </RevealOnScroll>
+
+          <RevealOnScroll threshold={0.12} delayMs={50}>
             <CertificatesSection onSelectCertificate={handleSelectCertificate} />
+          </RevealOnScroll>
+
+          <RevealOnScroll threshold={0.12} delayMs={50}>
+            <ServicesSection />
           </RevealOnScroll>
 
           <RevealOnScroll threshold={0.12} delayMs={50}>

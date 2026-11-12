@@ -11,6 +11,7 @@ import {
   Lock,
   Mail,
   Linkedin,
+  Github,
   Terminal,
   QrCode,
   Bot,
@@ -46,35 +47,10 @@ export function HeroSection({ onOpenResume, onOpenAi }: HeroSectionProps) {
 
   // Child variant for individual sequential reveal
   const itemVariants = {
-    hidden: { opacity: 0, y: 28 },
+    hidden: { opacity: 0, y: 24 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.55,
-        ease: [0.16, 1, 0.3, 1] as const,
-      },
-    },
-  };
-
-  // Stagger container for the bottom stat metrics
-  const statsContainerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const statItemVariants = {
-    hidden: { opacity: 0, y: 25, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
       transition: {
         duration: 0.5,
         ease: [0.16, 1, 0.3, 1] as const,
@@ -82,15 +58,39 @@ export function HeroSection({ onOpenResume, onOpenAi }: HeroSectionProps) {
     },
   };
 
+  const statsContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.15,
+      },
+    },
+  };
+
+  const statItemVariants = {
+    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.45,
+        ease: [0.16, 1, 0.3, 1] as const,
+      },
+    },
+  };
+
   return (
-    <section id="home" className="relative min-h-[92vh] pt-32 pb-20 flex items-center justify-center overflow-hidden">
+    <section id="home" className="relative min-h-[90vh] pt-32 pb-20 flex items-center justify-center overflow-hidden">
       {/* Subtle depth illumination */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[650px] h-[320px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
-          {/* Left Column: Sequential Staggered Entrance (Appearing One by One) */}
+          {/* Left Column: Direct, Clean Problem-Solving Content */}
           <motion.div 
             variants={containerVariants}
             initial="hidden"
@@ -98,145 +98,175 @@ export function HeroSection({ onOpenResume, onOpenAi }: HeroSectionProps) {
             className="lg:col-span-7 flex flex-col items-start text-left"
           >
             
-            {/* 1. Open to Work Hiring Status Tag */}
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/60 text-xs font-mono text-emerald-300 mb-6 shadow-sm shadow-emerald-950/40">
+            {/* 1. Open to Work Status Tag */}
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/60 text-xs font-mono text-emerald-300 mb-5 shadow-sm shadow-emerald-950/40">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="font-bold">AVAILABLE FOR HIRE</span>
+              <span className="font-bold">AVAILABLE FOR WORK</span>
               <span className="text-emerald-700">|</span>
               <span className="text-slate-300">Full-Time · Junior Analyst · Internships</span>
             </motion.div>
 
             {/* 2. Direct Problem-Solving Headline */}
-            <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-4 leading-tight">
+            <motion.h1 variants={itemVariants} className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-4 leading-[1.15]">
               I secure cloud architectures and web applications{' '}
               <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-lime-400 bg-clip-text text-transparent">
                 before attackers find them.
               </span>
             </motion.h1>
 
-            {/* 3. Role & Name Tag */}
-            <motion.div variants={itemVariants} className="flex items-center gap-2.5 text-lg sm:text-xl font-bold text-slate-200 mb-5">
+            {/* 3. Role & Identity Tag */}
+            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2 text-base sm:text-lg font-bold text-slate-200 mb-4">
               <span className="text-slate-400 font-normal">I'm</span>
               <span className="text-white underline decoration-emerald-500 decoration-2 underline-offset-4">
                 {PERSONAL_INFO.name}
               </span>
-              <span className="text-slate-500">·</span>
+              <span className="text-slate-500 hidden sm:inline">·</span>
               <span className="text-emerald-400 text-sm sm:text-base font-mono font-semibold">
-                Cloud Security & Offensive Pentester
+                Cloud Security Analyst & Offensive Pentester
               </span>
             </motion.div>
 
-            {/* 4. Direct Employer-Focused Problem-Solving Bio */}
-            <motion.p variants={itemVariants} className="text-base sm:text-lg text-slate-300 mb-6 max-w-2xl leading-relaxed">
+            {/* 4. Direct, Punchy Problem-Solving Bio */}
+            <motion.p variants={itemVariants} className="text-sm sm:text-base text-slate-300 mb-6 max-w-2xl leading-relaxed">
               {t(
                 PERSONAL_INFO.bio,
-                'Saya membantu organisasi mengidentifikasi dan memperbaiki kerentanan keamanan sebelum dieksploitasi oleh pelaku ancaman. Menguasai IAM least-privilege AWS, firewall perimeter GCP, Keycloak Zero-Trust MFA, dan pentesting web dengan Burp Suite. Siap berkontribusi langsung untuk peran Full-Time, Junior Analyst, atau Magang (Remote / Onsite).'
+                'Saya membantu organisasi mendeteksi dan memperbaiki kerentanan keamanan sebelum dieksploitasi oleh pelaku ancaman. Menguasai IAM least-privilege AWS/GCP, Keycloak Zero-Trust MFA, dan pentesting web dengan Burp Suite. Siap berkontribusi langsung untuk peran Full-Time, Junior Analyst, atau Magang (Remote / Onsite).'
               )}
             </motion.p>
 
-            {/* 5. Value Proposition Highlights: 4 pills appearing sequentially */}
+            {/* 5. Direct Core Focus Badges */}
             <motion.div 
               variants={itemVariants}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-xl mb-8 font-mono text-xs text-slate-300"
+              className="flex flex-wrap gap-2 w-full max-w-2xl mb-7 font-mono text-xs text-slate-300"
             >
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#0d1611]/80 border border-emerald-950 hover:border-emerald-500/40 transition-colors">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>AWS IAM & GCP VPC Perimeter Hardening</span>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0d1611] border border-emerald-950 text-emerald-300">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span>AWS & GCP IAM Least Privilege</span>
               </div>
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#0d1611]/80 border border-emerald-950 hover:border-emerald-500/40 transition-colors">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>OWASP Top 10 Web AppSec & SSRF Defense</span>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0d1611] border border-emerald-950 text-emerald-300">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span>Keycloak 24 Zero-Trust MFA</span>
               </div>
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#0d1611]/80 border border-emerald-950 hover:border-emerald-500/40 transition-colors">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Keycloak 24 OIDC with PKCE & TOTP MFA</span>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0d1611] border border-emerald-950 text-emerald-300">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span>Burp Suite Pro Web AppSec</span>
               </div>
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#0d1611]/80 border border-emerald-950 hover:border-emerald-500/40 transition-colors">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>NDPC / NDPR 2019 & CIS Benchmarks Audit</span>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0d1611] border border-emerald-950 text-emerald-300">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span>120+ Students Mentored</span>
               </div>
             </motion.div>
 
-            {/* 6. Action Buttons */}
+            {/* 6. Prominent Action Buttons with Visible "Hire me / Contact" */}
             <motion.div 
               variants={itemVariants}
-              className="flex flex-wrap items-center gap-3.5 mb-8 w-full sm:w-auto"
+              className="flex flex-wrap items-center gap-3 mb-7 w-full sm:w-auto"
             >
+              {/* Primary Visible Hire Me / Contact CTA */}
               <a
-                href="#projects"
+                href="#contact"
                 className="flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-slate-950 font-mono font-bold bg-gradient-to-r from-emerald-400 via-teal-300 to-lime-400 hover:from-emerald-300 hover:to-lime-300 rounded-xl shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:-translate-y-0.5 transition-all w-full sm:w-auto cursor-pointer"
               >
-                <span>{t('View Verified Projects', 'Lihat Proyek Terverifikasi')}</span>
-                <ArrowRight className="w-4 h-4" />
+                <Briefcase className="w-4 h-4" />
+                <span>{t('Hire Me / Contact', 'Rekrut Saya / Kontak')}</span>
               </a>
 
+              {/* View Verified Projects */}
+              <a
+                href="#projects"
+                className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-slate-200 bg-[#101913] hover:bg-[#15231a] border border-emerald-900/70 hover:border-emerald-500/60 rounded-xl transition-all w-full sm:w-auto cursor-pointer"
+              >
+                <span>{t('View Case Studies', 'Lihat Studi Kasus')}</span>
+                <ArrowRight className="w-4 h-4 text-emerald-400" />
+              </a>
+
+              {/* Inspect CV */}
               <button
                 type="button"
                 onClick={onOpenResume}
-                className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-slate-200 bg-[#101913] hover:bg-[#15231a] border border-emerald-900/70 hover:border-emerald-500/60 rounded-xl transition-all w-full sm:w-auto cursor-pointer"
+                className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-slate-200 bg-[#0c140f] hover:bg-[#121f18] border border-emerald-950 hover:border-emerald-800 rounded-xl transition-all w-full sm:w-auto cursor-pointer font-mono"
               >
                 <FileText className="w-4 h-4 text-emerald-400" />
-                <span>{t('Inspect Full Resume / CV', 'Lihat Resume / CV')}</span>
+                <span>{t('CV', 'CV')}</span>
               </button>
 
               {onOpenAi && (
                 <button
                   type="button"
                   onClick={onOpenAi}
-                  className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-emerald-300 bg-[#0a140f] hover:bg-[#0f1f17] border border-emerald-500/40 hover:border-emerald-400 rounded-xl transition-all w-full sm:w-auto cursor-pointer shadow-sm shadow-emerald-950/40 font-mono"
+                  className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-emerald-300 bg-[#0a140f] hover:bg-[#0f1f17] border border-emerald-500/40 hover:border-emerald-400 rounded-xl transition-all w-full sm:w-auto cursor-pointer shadow-sm shadow-emerald-950/40 font-mono"
+                  title="Open Medxploit AI Cybersecurity Assistant"
                 >
                   <Bot className="w-4 h-4 text-emerald-400 animate-pulse" />
-                  <span>{t('Ask Medxploit AI', 'Tanya Medxploit AI')}</span>
+                  <span>AI Mentor</span>
                 </button>
               )}
             </motion.div>
 
-            {/* 7. Social Verification Links */}
+            {/* 7. Working Social Links (GitHub, LinkedIn, Credly, TryHackMe) */}
             <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2">
+              <a
+                href={PERSONAL_INFO.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0d1611] hover:bg-[#121f18] border border-emerald-950 hover:border-emerald-500/50 text-xs text-slate-300 hover:text-white transition-all font-mono"
+                title="GitHub: muhammedabdulazeez"
+              >
+                <Github className="w-3.5 h-3.5 text-emerald-400" />
+                <span>GitHub</span>
+                <ExternalLink className="w-3 h-3 text-slate-500" />
+              </a>
+
               <a
                 href={PERSONAL_INFO.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#0d1611] hover:bg-[#121f18] border border-emerald-950 hover:border-emerald-500/50 text-xs text-slate-300 hover:text-white transition-all font-mono"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0d1611] hover:bg-[#121f18] border border-emerald-950 hover:border-emerald-500/50 text-xs text-slate-300 hover:text-white transition-all font-mono"
+                title="LinkedIn: timi-azeez36"
               >
                 <Linkedin className="w-3.5 h-3.5 text-emerald-400" />
                 <span>LinkedIn</span>
-              </a>
-
-              <a
-                href={PERSONAL_INFO.tryhackme}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#0d1611] hover:bg-[#121f18] border border-emerald-950 hover:border-emerald-500/50 text-xs text-slate-300 hover:text-white transition-all font-mono"
-              >
-                <Shield className="w-3.5 h-3.5 text-lime-400" />
-                <span>TryHackMe (MUHAMMEDAZEEZ770)</span>
+                <ExternalLink className="w-3 h-3 text-slate-500" />
               </a>
 
               <a
                 href={PERSONAL_INFO.credly}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#0d1611] hover:bg-[#121f18] border border-emerald-950 hover:border-emerald-500/50 text-xs text-slate-300 hover:text-white transition-all font-mono"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0d1611] hover:bg-[#121f18] border border-emerald-950 hover:border-emerald-500/50 text-xs text-slate-300 hover:text-white transition-all font-mono"
+                title="Credly Verified Credentials"
               >
-                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-                <span>Credly Wallet</span>
+                <Shield className="w-3.5 h-3.5 text-teal-400" />
+                <span>Credly</span>
+                <ExternalLink className="w-3 h-3 text-slate-500" />
+              </a>
+
+              <a
+                href={PERSONAL_INFO.tryhackme}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0d1611] hover:bg-[#121f18] border border-emerald-950 hover:border-emerald-500/50 text-xs text-slate-300 hover:text-white transition-all font-mono"
+                title="TryHackMe Profile"
+              >
+                <Terminal className="w-3.5 h-3.5 text-lime-400" />
+                <span>TryHackMe</span>
+                <ExternalLink className="w-3 h-3 text-slate-500" />
               </a>
             </motion.div>
 
           </motion.div>
 
-          {/* Right Column: Realistic Hanging Lanyard ID Badge (Firmly in Place, 3D Flip, NO Dragging) */}
+          {/* Right Column: Stationary Hanging Lanyard ID Badge (Flips in place, border + card together) */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 flex flex-col items-center justify-center relative"
           >
             
-            {/* Lanyard Fabric Rope & Metal Ring Clasp (Firmly anchored at top) */}
+            {/* Lanyard Fabric Rope & Clamp Ring (Firmly attached to top of frame) */}
             <div className="flex flex-col items-center pointer-events-none select-none z-30 -mb-3">
-              {/* Fabric ribbon strap with authentic typography */}
+              {/* Fabric ribbon strap */}
               <div className="w-8 h-20 bg-gradient-to-b from-slate-900 via-neutral-900 to-black border-x border-neutral-700/80 shadow-xl flex items-center justify-center relative overflow-hidden">
                 <div className="rotate-90 text-[8px] font-mono font-bold tracking-widest text-neutral-400 uppercase whitespace-nowrap">
                   MEDXPLOIT · SEC
@@ -271,9 +301,7 @@ export function HeroSection({ onOpenResume, onOpenAi }: HeroSectionProps) {
                 title="Click card to flip 360°"
               >
 
-                {/* ========================================================= */}
-                {/* FRONT FACE: Official ID Badge (Border + Content Together) */}
-                {/* ========================================================= */}
+                {/* FRONT FACE */}
                 <div
                   className="rounded-[26px] bg-[#0d1611] border-2 border-emerald-500/60 shadow-2xl p-3 sm:p-3.5 relative flex flex-col justify-between"
                   style={{
@@ -281,7 +309,7 @@ export function HeroSection({ onOpenResume, onOpenAi }: HeroSectionProps) {
                     WebkitBackfaceVisibility: 'hidden',
                   }}
                 >
-                  {/* Real Card Punch Hole Slot (where the silver ring threads) */}
+                  {/* Card Punch Hole Slot */}
                   <div className="w-full flex items-center justify-center -mt-1 mb-2">
                     <div className="w-12 h-3 rounded-full bg-[#050807] border border-emerald-950 shadow-inner" />
                   </div>
@@ -310,7 +338,7 @@ export function HeroSection({ onOpenResume, onOpenAi }: HeroSectionProps) {
                       </div>
                     </div>
 
-                    {/* Central Portrait Photo with Side Tag */}
+                    {/* Central Portrait Photo */}
                     <div className="relative aspect-[3/3.8] rounded-xl overflow-hidden bg-[#050807] border border-emerald-900/60 my-1 group">
                       <img
                         src={PERSONAL_INFO.portraitImage}
@@ -319,10 +347,9 @@ export function HeroSection({ onOpenResume, onOpenAi }: HeroSectionProps) {
                         referrerPolicy="no-referrer"
                       />
 
-                      {/* Scrim Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[#050807]/90 via-transparent to-transparent pointer-events-none" />
 
-                      {/* Horizontal Name Tag Badge across the photo */}
+                      {/* Name Tag Badge across photo */}
                       <div className="absolute bottom-3 left-3 right-3 bg-white/95 text-slate-950 rounded-lg p-2 shadow-xl border border-slate-200">
                         <div className="text-[11px] font-bold font-mono tracking-wide text-slate-950 truncate">
                           MUHAMMED O. ABDULAZEEZ
@@ -351,9 +378,7 @@ export function HeroSection({ onOpenResume, onOpenAi }: HeroSectionProps) {
                   </div>
                 </div>
 
-                {/* ========================================================= */}
-                {/* BACK FACE: Reverse Side (Border + Photo Flip Together)    */}
-                {/* ========================================================= */}
+                {/* BACK FACE */}
                 <div
                   className="rounded-[26px] bg-[#0d1611] border-2 border-emerald-400/80 shadow-2xl p-3 sm:p-3.5 absolute inset-0 flex flex-col justify-between"
                   style={{
@@ -362,7 +387,7 @@ export function HeroSection({ onOpenResume, onOpenAi }: HeroSectionProps) {
                     transform: 'rotateY(180deg)',
                   }}
                 >
-                  {/* Real Card Punch Hole Slot (mirrored) */}
+                  {/* Card Punch Hole Slot */}
                   <div className="w-full flex items-center justify-center -mt-1 mb-2">
                     <div className="w-12 h-3 rounded-full bg-[#050807] border border-emerald-950 shadow-inner" />
                   </div>
@@ -411,7 +436,7 @@ export function HeroSection({ onOpenResume, onOpenAi }: HeroSectionProps) {
                       </div>
                     </div>
 
-                    {/* Back Barcode & Flip Indicator */}
+                    {/* Back Footer */}
                     <div className="pt-2 border-t border-emerald-950 flex items-center justify-between text-[10px] font-mono text-slate-400">
                       <span className="text-slate-300">REVERSE SIDE</span>
                       <span className="text-emerald-400 flex items-center gap-1 font-semibold">
@@ -426,7 +451,7 @@ export function HeroSection({ onOpenResume, onOpenAi }: HeroSectionProps) {
               </div>
             </div>
 
-            {/* Interactive Flip Button Helper (Stays in place) */}
+            {/* Interactive Flip Button Helper */}
             <div className="mt-3.5 flex items-center gap-2">
               <button
                 type="button"
@@ -442,7 +467,7 @@ export function HeroSection({ onOpenResume, onOpenAi }: HeroSectionProps) {
 
         </div>
 
-        {/* Quick Employer Overview Metric Cards with Sequential Stagger (Appearing One by One) */}
+        {/* Quick Employer Overview Metric Cards */}
         <motion.div 
           variants={statsContainerVariants}
           initial="hidden"

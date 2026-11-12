@@ -5,7 +5,6 @@ import {
   Globe, 
   Menu, 
   X, 
-  Sparkles, 
   Home, 
   User, 
   Wrench, 
@@ -13,7 +12,10 @@ import {
   Award, 
   Terminal, 
   Mail,
-  Bot
+  Bot,
+  GraduationCap,
+  FileCode2,
+  Briefcase
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -36,8 +38,19 @@ export function Navbar({ onOpenResume, onOpenAi }: NavbarProps) {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
-    // IntersectionObserver to accurately track the active section in view
-    const sections = ['home', 'about', 'skills', 'projects', 'certificates', 'terminal', 'contact'];
+    // Track all sections accurately
+    const sections = [
+      'home', 
+      'about', 
+      'skills', 
+      'teaching', 
+      'projects', 
+      'writeups', 
+      'certificates', 
+      'services', 
+      'terminal', 
+      'contact'
+    ];
     let observer: IntersectionObserver | null = null;
 
     if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
@@ -50,7 +63,7 @@ export function Navbar({ onOpenResume, onOpenAi }: NavbarProps) {
           });
         },
         {
-          threshold: 0.25,
+          threshold: 0.2,
           rootMargin: '-10% 0px -40% 0px',
         }
       );
@@ -71,14 +84,16 @@ export function Navbar({ onOpenResume, onOpenAi }: NavbarProps) {
     { href: '#home', id: 'home', label: t('Home', 'Beranda'), icon: Home },
     { href: '#about', id: 'about', label: t('About', 'Tentang'), icon: User },
     { href: '#skills', id: 'skills', label: t('Skills', 'Keahlian'), icon: Wrench },
+    { href: '#teaching', id: 'teaching', label: t('Teaching', 'Mengajar'), icon: GraduationCap },
     { href: '#projects', id: 'projects', label: t('Projects', 'Proyek'), icon: FolderGit2 },
+    { href: '#writeups', id: 'writeups', label: t('Writeups', 'Riset'), icon: FileCode2 },
     { href: '#certificates', id: 'certificates', label: t('Certs', 'Sertifikat'), icon: Award },
-    { href: '#terminal', id: 'terminal', label: t('Terminal', 'Konsol'), icon: Terminal },
+    { href: '#services', id: 'services', label: t('Services', 'Layanan'), icon: Briefcase },
     { href: '#contact', id: 'contact', label: t('Contact', 'Kontak'), icon: Mail },
   ];
 
   return (
-    <div className="fixed top-3 sm:top-5 inset-x-0 z-40 max-w-5xl mx-auto px-3 sm:px-4 pointer-events-none">
+    <div className="fixed top-3 sm:top-5 inset-x-0 z-40 max-w-6xl mx-auto px-3 sm:px-4 pointer-events-none">
       {/* Floating Island Dock */}
       <header
         className={`pointer-events-auto rounded-full bg-[#0a110d]/90 backdrop-blur-2xl border border-emerald-500/30 floating-nav-shadow px-3.5 sm:px-5 py-2 transition-all duration-300 ${
@@ -107,14 +122,14 @@ export function Navbar({ onOpenResume, onOpenAi }: NavbarProps) {
           </a>
 
           {/* Desktop Floating Navigation Dock */}
-          <nav className="hidden lg:flex items-center gap-1 text-xs font-medium bg-[#101913]/70 p-1 rounded-full border border-emerald-950/80">
+          <nav className="hidden xl:flex items-center gap-1 text-xs font-medium bg-[#101913]/70 p-1 rounded-full border border-emerald-950/80">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
               return (
                 <a
                   key={link.id}
                   href={link.href}
-                  className={`px-3 py-1.5 rounded-full transition-all duration-200 whitespace-nowrap flex items-center gap-1.5 ${
+                  className={`px-2.5 py-1.5 rounded-full transition-all duration-200 whitespace-nowrap flex items-center gap-1.5 ${
                     isActive
                       ? 'bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 text-white font-semibold shadow-sm shadow-emerald-500/30 scale-105'
                       : 'text-slate-300 hover:text-white hover:bg-emerald-950/50'
@@ -126,13 +141,13 @@ export function Navbar({ onOpenResume, onOpenAi }: NavbarProps) {
             })}
           </nav>
 
-          {/* Right Action Controls: AI Mentor Button + Language Pill + CV Button + Hire Me */}
+          {/* Right Action Controls: AI Mentor + Language Switcher + CV Button + Hire Me */}
           <div className="hidden sm:flex items-center gap-2 shrink-0">
             {/* Medxploit AI Drawer Trigger Button */}
             <button
               onClick={onOpenAi}
               className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-semibold text-emerald-300 bg-[#0c1611] hover:bg-[#12221a] border border-emerald-500/50 hover:border-emerald-400 rounded-full transition-all shadow-sm shadow-emerald-950/40 cursor-pointer"
-              title="Open Medxploit AI Mentor Panel"
+              title="Open Medxploit AI Mentor Side Panel"
             >
               <Bot className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
               <span>AI Mentor</span>
@@ -167,10 +182,10 @@ export function Navbar({ onOpenResume, onOpenAi }: NavbarProps) {
             {/* CV Modal Action */}
             <button
               onClick={onOpenResume}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-200 bg-[#101913] hover:bg-[#15231a] border border-emerald-900/60 hover:border-emerald-500/60 rounded-full transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-200 bg-[#101913] hover:bg-[#15231a] border border-emerald-900/60 hover:border-emerald-500/60 rounded-full transition-all cursor-pointer font-mono"
             >
               <FileText className="w-3.5 h-3.5 text-emerald-400" />
-              <span>{t('CV', 'CV')}</span>
+              <span>CV</span>
             </button>
 
             {/* Direct Connect Action */}
@@ -182,8 +197,8 @@ export function Navbar({ onOpenResume, onOpenAi }: NavbarProps) {
             </a>
           </div>
 
-          {/* Mobile Right Controls: AI button + Language switch & Menu toggle */}
-          <div className="flex items-center gap-1.5 lg:hidden">
+          {/* Mobile Right Controls */}
+          <div className="flex items-center gap-1.5 xl:hidden">
             <button
               onClick={onOpenAi}
               className="p-1.5 text-xs font-mono font-bold text-emerald-300 bg-[#0c1611] border border-emerald-500/50 rounded-full px-2.5 flex items-center gap-1"
@@ -204,11 +219,11 @@ export function Navbar({ onOpenResume, onOpenAi }: NavbarProps) {
 
             <button
               onClick={onOpenResume}
-              className="p-1.5 text-xs font-semibold text-slate-300 bg-[#101913] border border-emerald-950 rounded-full px-2.5 flex items-center gap-1"
+              className="p-1.5 text-xs font-semibold text-slate-300 bg-[#101913] border border-emerald-950 rounded-full px-2.5 flex items-center gap-1 font-mono"
               title="Open Resume"
             >
               <FileText className="w-3 h-3 text-emerald-400" />
-              <span className="hidden xs:inline">CV</span>
+              <span>CV</span>
             </button>
 
             <button
@@ -225,7 +240,7 @@ export function Navbar({ onOpenResume, onOpenAi }: NavbarProps) {
 
       {/* Mobile Drawer Dropdown Pill */}
       {mobileMenuOpen && (
-        <div className="pointer-events-auto lg:hidden mt-2 bg-[#0a110d]/95 backdrop-blur-2xl border border-emerald-500/40 rounded-3xl p-4 shadow-2xl floating-nav-shadow animate-in slide-in-from-top-2 duration-200">
+        <div className="pointer-events-auto xl:hidden mt-2 bg-[#0a110d]/95 backdrop-blur-2xl border border-emerald-500/40 rounded-3xl p-4 shadow-2xl floating-nav-shadow animate-in slide-in-from-top-2 duration-200">
           <nav className="grid grid-cols-2 gap-1.5">
             {navLinks.map((link) => {
               const Icon = link.icon;
@@ -275,7 +290,7 @@ export function Navbar({ onOpenResume, onOpenAi }: NavbarProps) {
               onClick={() => setMobileMenuOpen(false)}
               className="w-full text-center px-4 py-2 text-xs font-semibold text-slate-950 font-bold bg-gradient-to-r from-emerald-400 to-lime-400 rounded-xl shadow-md"
             >
-              {t('Get in Touch', 'Hubungi Saya')}
+              {t('Hire Me / Contact', 'Rekrut / Hubungi')}
             </a>
           </div>
         </div>

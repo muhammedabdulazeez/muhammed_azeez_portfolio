@@ -19,8 +19,8 @@ export function CertificatesSection({ onSelectCertificate }: CertificatesSection
 
   const filterTabs = [
     { id: 'all', label: t('All Certifications', 'Semua Sertifikasi') },
-    { id: 'offensive', label: t('Ethical Hacking & CTF', 'Ethical Hacking & CTF') },
     { id: 'cloud', label: t('Cloud Security (AWS & GCP)', 'Keamanan Cloud') },
+    { id: 'offensive', label: t('Ethical Hacking & CTF', 'Ethical Hacking & CTF') },
     { id: 'grc', label: t('GRC & Compliance', 'GRC & Kepatuhan') },
   ];
 
@@ -52,7 +52,7 @@ export function CertificatesSection({ onSelectCertificate }: CertificatesSection
     <section id="certificates" className="py-24 relative z-10 bg-[#060a08]/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header with Scroll Drop Animation */}
+        {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -65,12 +65,12 @@ export function CertificatesSection({ onSelectCertificate }: CertificatesSection
             <span>{t('ACCREDITED CERTIFICATIONS', 'SERTIFIKASI TERAKREDITASI')}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            {t('Verified Industry Credentials', 'Kredensial Industri Terverifikasi')}
+            {t('Verified Industry Credentials & Badges', 'Kredensial Industri & Badge Terverifikasi')}
           </h2>
           <p className="text-slate-400 mt-4 text-base leading-relaxed">
             {t(
-              'Official accreditations from Google Cloud, AWS, Aptech Computer Education, and Elevify GRC. Click any card to inspect full high-resolution proof.',
-              'Akreditasi resmi dari Google Cloud, AWS, Aptech Computer Education, dan Elevify GRC. Klik kartu mana pun untuk memeriksa dokumen bukti resolusi tinggi.'
+              'Official accreditations from Google Cloud, AWS, Aptech Computer Education, and Elevify GRC. Every certificate includes direct clickable verification.',
+              'Akreditasi resmi dari Google Cloud, AWS, Aptech Computer Education, dan Elevify GRC. Setiap sertifikat memiliki tautan verifikasi online yang dapat diklik.'
             )}
           </p>
 
@@ -92,7 +92,7 @@ export function CertificatesSection({ onSelectCertificate }: CertificatesSection
           </div>
         </motion.div>
 
-        {/* Certificate Cards Grid with Sequential Stagger (Appearing One by One) */}
+        {/* Certificate Cards Grid */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -104,12 +104,15 @@ export function CertificatesSection({ onSelectCertificate }: CertificatesSection
             <motion.div
               key={cert.id}
               variants={itemVariants}
-              onClick={() => onSelectCertificate(cert)}
-              className="group cursor-pointer shiny-border rounded-2xl overflow-hidden bg-[#0a120e]/80 hover:bg-[#0e1913] transition-all duration-300 hover:-translate-y-1.5 shadow-lg shadow-black/50 hover:shadow-emerald-950/40 flex flex-col justify-between hover:border-emerald-500/50"
+              className="group shiny-border rounded-2xl overflow-hidden bg-[#0a120e]/80 hover:bg-[#0e1913] transition-all duration-300 hover:-translate-y-1.5 shadow-lg shadow-black/50 hover:shadow-emerald-950/40 flex flex-col justify-between hover:border-emerald-500/50"
             >
               <div>
                 {/* Thumbnail Preview Header */}
-                <div className="relative aspect-[16/10] overflow-hidden bg-[#050807] border-b border-emerald-950">
+                <div 
+                  onClick={() => onSelectCertificate(cert)}
+                  className="relative aspect-[16/10] overflow-hidden bg-[#050807] border-b border-emerald-950 cursor-pointer"
+                  title="Click to view full-resolution certificate"
+                >
                   <img
                     src={cert.image}
                     alt={cert.title}
@@ -120,16 +123,24 @@ export function CertificatesSection({ onSelectCertificate }: CertificatesSection
                   {/* Gradient Scrim */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#050807]/90 via-transparent to-transparent pointer-events-none" />
 
-                  {/* Verified Pill */}
-                  <div className="absolute top-3 left-3 bg-[#050807]/90 backdrop-blur-md border border-emerald-800/80 rounded-md px-2 py-0.5 text-[11px] font-mono text-emerald-400 flex items-center gap-1 shadow-sm">
+                  {/* Clickable Verified Pill with direct link */}
+                  <a
+                    href={cert.verifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute top-3 left-3 bg-[#050807]/90 backdrop-blur-md border border-emerald-800/80 hover:border-emerald-400 rounded-md px-2 py-0.5 text-[11px] font-mono text-emerald-400 hover:text-emerald-300 flex items-center gap-1 shadow-sm transition-colors"
+                    title="Click to verify on Credly or Issuer site"
+                  >
                     <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t('VERIFIED PROOF', 'TERVERIFIKASI')}</span>
-                  </div>
+                    <span>{t('VERIFY ONLINE', 'VERIFIKASI')}</span>
+                    <ExternalLink className="w-2.5 h-2.5 ml-0.5 text-slate-400" />
+                  </a>
 
                   {/* Hover Inspect button */}
-                  <div className="absolute inset-0 bg-[#050807]/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-emerald-400 text-xs font-semibold font-mono">
+                  <div className="absolute inset-0 bg-[#050807]/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-emerald-400 text-xs font-semibold font-mono pointer-events-none">
                     <Eye className="w-4 h-4" />
-                    <span>{t('Inspect Proof', 'Periksa Bukti')}</span>
+                    <span>{t('Inspect Document', 'Periksa Dokumen')}</span>
                   </div>
                 </div>
 
@@ -156,7 +167,7 @@ export function CertificatesSection({ onSelectCertificate }: CertificatesSection
                 </div>
               </div>
 
-              {/* Skills Footer */}
+              {/* Skills and Direct Action Links Footer */}
               <div className="px-5 pb-5">
                 <div className="flex flex-wrap gap-1 mb-4">
                   {cert.skills.slice(0, 3).map((skill, sIdx) => (
@@ -174,12 +185,26 @@ export function CertificatesSection({ onSelectCertificate }: CertificatesSection
                   )}
                 </div>
 
-                <div className="pt-3 border-t border-emerald-950/80 flex items-center justify-between text-xs font-mono text-emerald-400 group-hover:text-emerald-300 transition-colors">
-                  <span className="flex items-center gap-1">
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>{t('Click to Inspect', 'Klik untuk Periksa')}</span>
-                  </span>
-                  <span>↗</span>
+                {/* Dual Actions: Inspect image OR Verify on Credly / Portal */}
+                <div className="pt-3 border-t border-emerald-950/80 flex items-center justify-between text-xs font-mono">
+                  <button
+                    type="button"
+                    onClick={() => onSelectCertificate(cert)}
+                    className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                  >
+                    <Eye className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>{t('Inspect Image', 'Lihat Foto')}</span>
+                  </button>
+
+                  <a
+                    href={cert.verifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-semibold transition-colors cursor-pointer"
+                  >
+                    <span>{t('Verify Credential', 'Verifikasi')}</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
                 </div>
               </div>
 
@@ -205,8 +230,8 @@ export function CertificatesSection({ onSelectCertificate }: CertificatesSection
               </h3>
               <p className="text-xs sm:text-sm text-slate-400 mt-1">
                 {t(
-                  'Verify cryptographic issue signatures for Google Cloud, AWS, and enterprise cybersecurity accreditations directly.',
-                  'Verifikasi tanda tangan kriptografis penerbitan kredensial Google Cloud dan AWS secara langsung.'
+                  'Verify cryptographic issue signatures for Google Cloud, AWS, APIsec, and Cisco certifications directly on Credly.',
+                  'Verifikasi tanda tangan kriptografis sertifikasi Google Cloud, AWS, APIsec, dan Cisco langsung di Credly.'
                 )}
               </p>
             </div>
@@ -218,7 +243,7 @@ export function CertificatesSection({ onSelectCertificate }: CertificatesSection
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-emerald-500 via-teal-400 to-lime-400 hover:from-emerald-400 hover:to-lime-300 text-slate-950 font-bold rounded-xl font-mono text-xs shadow-md shadow-emerald-500/20 whitespace-nowrap transition-all cursor-pointer"
           >
-            <span>{t('Open Credly Wallet', 'Buka Dompet Credly')}</span>
+            <span>{t('Open Credly Transcript', 'Buka Transkrip Credly')}</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </motion.div>

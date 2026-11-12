@@ -2,7 +2,16 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import { PROJECTS, Project } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
-import { ShieldCheck, ExternalLink, ArrowRight, Wrench, Eye, Shield } from 'lucide-react';
+import { 
+  ShieldCheck, 
+  ExternalLink, 
+  ArrowRight, 
+  Eye, 
+  Github, 
+  Wrench, 
+  AlertCircle, 
+  CheckCircle2 
+} from 'lucide-react';
 
 interface ProjectsSectionProps {
   onSelectProject: (project: Project) => void;
@@ -10,7 +19,7 @@ interface ProjectsSectionProps {
 
 export function ProjectsSection({ onSelectProject }: ProjectsSectionProps) {
   const { t } = useLanguage();
-  const [filter, setFilter] = useState<'all' | 'cloud' | 'offensive' | 'iam'>('all');
+  const [filter, setFilter] = useState<'all' | 'cloud' | 'pentest' | 'iam'>('all');
 
   const filteredProjects = PROJECTS.filter((proj) => {
     if (filter === 'all') return true;
@@ -19,9 +28,9 @@ export function ProjectsSection({ onSelectProject }: ProjectsSectionProps) {
 
   const filterTabs = [
     { id: 'all', label: t('All Case Studies', 'Semua Studi Kasus') },
-    { id: 'cloud', label: t('Cloud Security (AWS/GCP)', 'Keamanan Cloud') },
-    { id: 'offensive', label: t('Offensive Pentesting', 'Pentesting Ofensif') },
-    { id: 'iam', label: t('Zero-Trust IAM', 'Zero-Trust IAM') },
+    { id: 'cloud', label: t('Cloud Security & CSPM', 'Keamanan Cloud & CSPM') },
+    { id: 'iam', label: t('Zero-Trust IAM (Keycloak)', 'Zero-Trust IAM') },
+    { id: 'pentest', label: t('Offensive Web AppSec', 'Pentesting Web') },
   ];
 
   const containerVariants = {
@@ -36,7 +45,7 @@ export function ProjectsSection({ onSelectProject }: ProjectsSectionProps) {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 40, scale: 0.95 },
+    hidden: { opacity: 0, y: 35, scale: 0.96 },
     visible: {
       opacity: 1,
       y: 0,
@@ -52,7 +61,7 @@ export function ProjectsSection({ onSelectProject }: ProjectsSectionProps) {
     <section id="projects" className="py-24 relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header with Scroll Drop Animation */}
+        {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -62,15 +71,15 @@ export function ProjectsSection({ onSelectProject }: ProjectsSectionProps) {
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-800/70 text-xs font-mono text-emerald-400 mb-4 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>{t('FEATURED SECURITY PROJECTS', 'PROYEK KEAMANAN UNGGULAN')}</span>
+            <span>{t('DEEP SECURITY CASE STUDIES', 'STUDI KASUS KEAMANAN MENDALAM')}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            {t('Defensive Deployments & Security Exploits', 'Implementasi Defensif & Riset Eksploitasi')}
+            {t('Cloud Defense Architectures & Offensive Exploits', 'Arsitektur Pertahanan Cloud & Riset Eksploitasi')}
           </h2>
           <p className="text-slate-400 mt-4 text-base leading-relaxed">
             {t(
-              'Real-world architectures, cloud policies, and attack lab verifications with authentic screenshot evidence.',
-              'Arsitektur dunia nyata, kebijakan cloud, dan verifikasi lab pengujian dengan bukti tangkapan layar otentik.'
+              'Each project is backed by verified problem statements, tools used, architecture decisions, measurable results, and linked GitHub repositories.',
+              'Setiap proyek didukung oleh pernyataan masalah, alat yang digunakan, keputusan arsitektur, hasil terukur, dan tautan repositori GitHub.'
             )}
           </p>
 
@@ -92,7 +101,7 @@ export function ProjectsSection({ onSelectProject }: ProjectsSectionProps) {
           </div>
         </motion.div>
 
-        {/* Project Cards Grid with Sequential Stagger (Appearing One by One) */}
+        {/* Project Cards Grid */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -104,73 +113,113 @@ export function ProjectsSection({ onSelectProject }: ProjectsSectionProps) {
             <motion.div
               key={project.id}
               variants={itemVariants}
-              onClick={() => onSelectProject(project)}
-              className="group cursor-pointer shiny-border rounded-2xl overflow-hidden bg-[#0a120e]/80 hover:bg-[#0e1913] transition-all duration-300 hover:-translate-y-1.5 shadow-lg shadow-black/50 hover:shadow-2xl hover:shadow-emerald-950/40 flex flex-col hover:border-emerald-500/50"
+              className="group shiny-border rounded-2xl overflow-hidden bg-[#0a120e]/80 hover:bg-[#0e1913] transition-all duration-300 hover:-translate-y-1.5 shadow-lg shadow-black/50 hover:shadow-2xl hover:shadow-emerald-950/40 flex flex-col justify-between hover:border-emerald-500/50"
             >
-              {/* Thumbnail Container */}
-              <div className="relative aspect-video overflow-hidden bg-[#050807] border-b border-emerald-950">
-                <img
-                  src={project.thumbnail}
-                  alt={project.title}
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  referrerPolicy="no-referrer"
-                />
-                
-                {/* Scrim overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050807] via-[#050807]/30 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+              <div>
+                {/* Thumbnail Container */}
+                <div 
+                  onClick={() => onSelectProject(project)}
+                  className="relative aspect-video overflow-hidden bg-[#050807] border-b border-emerald-950 cursor-pointer"
+                  title="Click to view full architecture details"
+                >
+                  <img
+                    src={project.thumbnail}
+                    alt={project.title}
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                  
+                  {/* Scrim overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050807] via-[#050807]/30 to-transparent opacity-80 group-hover:opacity-50 transition-opacity" />
 
-                {/* Badge */}
-                <div className="absolute top-3 left-3 bg-[#050807]/90 backdrop-blur-md border border-emerald-900/80 rounded-md px-2.5 py-1 text-[11px] font-mono text-emerald-400 flex items-center gap-1.5 shadow-sm">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>{project.badge}</span>
+                  {/* Badge */}
+                  <div className="absolute top-3 left-3 bg-[#050807]/90 backdrop-blur-md border border-emerald-900/80 rounded-md px-2.5 py-1 text-[11px] font-mono text-emerald-400 flex items-center gap-1.5 shadow-sm">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    <span>{project.badge}</span>
+                  </div>
+
+                  {/* Hover Inspect Action */}
+                  <div className="absolute inset-0 bg-[#050807]/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-emerald-400 text-xs font-semibold font-mono pointer-events-none">
+                    <Eye className="w-4 h-4" />
+                    <span>{t('Inspect Case Study', 'Buka Studi Kasus')}</span>
+                  </div>
                 </div>
 
-                {/* Inspect button overlay */}
-                <div className="absolute inset-0 bg-[#050807]/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-emerald-400 text-xs font-semibold font-mono">
-                  <Eye className="w-4 h-4" />
-                  <span>{t('Click to Inspect Case Study', 'Klik untuk Periksa Studi Kasus')}</span>
-                </div>
-              </div>
-
-              {/* Card Content */}
-              <div className="p-6 flex-1 flex flex-col justify-between">
-                <div>
+                {/* Card Content with Depth Fields */}
+                <div className="p-6">
                   <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
                     <span className="text-emerald-400 font-semibold">{project.categoryLabel}</span>
                     <span>{project.date}</span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors line-clamp-2">
+                  <h3 
+                    onClick={() => onSelectProject(project)}
+                    className="text-lg font-bold text-white mb-3 group-hover:text-emerald-300 transition-colors line-clamp-2 cursor-pointer"
+                  >
                     {project.title}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-slate-400 mb-4 line-clamp-3 leading-relaxed">
-                    {project.description}
-                  </p>
-                </div>
+                  {/* Problem & Result Mini-Blocks */}
+                  <div className="space-y-2 mb-4 text-xs">
+                    <div className="bg-[#050807] p-2.5 rounded-lg border border-emerald-950">
+                      <div className="text-[10px] font-mono font-bold text-red-400 uppercase tracking-wider mb-0.5">
+                        Problem
+                      </div>
+                      <p className="text-slate-300 line-clamp-2 leading-relaxed">
+                        {project.problem}
+                      </p>
+                    </div>
 
-                <div>
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5 mb-5">
-                    {project.tags.map((tag, tIdx) => (
+                    <div className="bg-[#050807] p-2.5 rounded-lg border border-emerald-950">
+                      <div className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider mb-0.5">
+                        Outcome
+                      </div>
+                      <p className="text-slate-300 line-clamp-2 leading-relaxed">
+                        {project.result}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Tools Tags */}
+                  <div className="flex flex-wrap gap-1.5 mb-2">
+                    {project.tags.slice(0, 4).map((tag, tIdx) => (
                       <span
                         key={tIdx}
-                        className="px-2.5 py-0.5 rounded-md bg-[#060a08] text-[11px] font-mono text-emerald-300/90 border border-emerald-950"
+                        className="px-2 py-0.5 rounded bg-[#060a08] text-[10px] font-mono text-emerald-300/90 border border-emerald-950"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
-
-                  {/* Footer Action */}
-                  <div className="pt-3 border-t border-emerald-950/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-emerald-400 transition-colors">
-                    <span className="font-semibold flex items-center gap-1">
-                      <span>{t('View Architecture & Proofs', 'Lihat Arsitektur & Bukti')}</span>
-                    </span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
                 </div>
+              </div>
 
+              {/* Card Footer: GitHub Link + Case Study Details */}
+              <div className="px-6 pb-6 pt-3 border-t border-emerald-950/80 flex items-center justify-between text-xs font-mono">
+                {project.githubUrl ? (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors group/link"
+                    title="View GitHub Repository"
+                  >
+                    <Github className="w-3.5 h-3.5 text-emerald-400 group-hover/link:scale-110 transition-transform" />
+                    <span>GitHub Repo</span>
+                    <ExternalLink className="w-3 h-3 text-slate-500" />
+                  </a>
+                ) : (
+                  <span className="text-slate-600">Enterprise Lab</span>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => onSelectProject(project)}
+                  className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-semibold cursor-pointer"
+                >
+                  <span>{t('Deep Dive', 'Detail')}</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                </button>
               </div>
 
             </motion.div>

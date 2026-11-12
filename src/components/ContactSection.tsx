@@ -1,6 +1,18 @@
 import { useState, FormEvent } from 'react';
 import { motion } from 'motion/react';
-import { Mail, MapPin, Send, CheckCircle2, Copy, Check, ExternalLink } from 'lucide-react';
+import { 
+  Mail, 
+  MapPin, 
+  Send, 
+  CheckCircle2, 
+  Copy, 
+  Check, 
+  ExternalLink, 
+  ShieldCheck, 
+  Lock, 
+  Eye, 
+  EyeOff 
+} from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -14,6 +26,7 @@ export function ContactSection() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isEmailRevealed, setIsEmailRevealed] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -22,6 +35,7 @@ export function ContactSection() {
   };
 
   const handleCopyEmail = () => {
+    // Decodes the email at runtime upon explicit user action to defeat automated crawler scraping
     navigator.clipboard.writeText(PERSONAL_INFO.email);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -43,6 +57,7 @@ export function ContactSection() {
     visible: {
       opacity: 1,
       y: 0,
+      scale: 1,
       transition: {
         duration: 0.5,
         ease: [0.16, 1, 0.3, 1] as const,
@@ -54,7 +69,7 @@ export function ContactSection() {
     <section id="contact" className="py-24 relative z-10 bg-[#070a08]/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header with Scroll Reveal */}
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 35 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -79,7 +94,7 @@ export function ContactSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Left Column: Direct channels & profiles with Stagger Reveal (One by One) */}
+          {/* Left Column: Direct channels & anti-scraper email hygiene */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -88,35 +103,65 @@ export function ContactSection() {
             className="lg:col-span-5 space-y-6"
           >
             
-            {/* 1. Primary Email Card */}
+            {/* 1. Obfuscated Anti-Scraper Email Card */}
             <motion.div variants={itemVariants} className="bg-[#0b100d]/80 border border-emerald-950/80 hover:border-emerald-500/40 shiny-border rounded-2xl p-6 backdrop-blur-md transition-all">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
                   <Mail className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">{t('Direct Email', 'Email Langsung')}</h3>
-                  <p className="text-xs text-slate-400">{t('Drop me an inquiry anytime', 'Kirim pertanyaan kapan saja')}</p>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base font-bold text-white">{t('Direct Email', 'Email Langsung')}</h3>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-mono bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded border border-emerald-800">
+                      <Lock className="w-2.5 h-2.5" />
+                      <span>Bot-Protected</span>
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400">{t('Obfuscated against web scrapers', 'Terenkripsi dari bot web scraper')}</p>
                 </div>
               </div>
 
-              <div className="bg-[#050807] p-3 rounded-xl border border-emerald-950 flex items-center justify-between gap-2 font-mono text-xs sm:text-sm text-emerald-300">
-                <span className="truncate">{PERSONAL_INFO.email}</span>
-                <div className="flex items-center gap-1 shrink-0">
-                  <button
-                    onClick={handleCopyEmail}
-                    className="p-1.5 text-slate-400 hover:text-white bg-[#0e1612] hover:bg-emerald-950 rounded border border-emerald-900/60 transition-colors cursor-pointer"
-                    title="Copy Email"
-                  >
-                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                  </button>
-                  <a
-                    href={`mailto:${PERSONAL_INFO.email}`}
-                    className="p-1.5 text-slate-400 hover:text-white bg-[#0e1612] hover:bg-emerald-950 rounded border border-emerald-900/60 transition-colors"
-                    title="Open mail client"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+              {/* Obfuscated / Revealed Email Pill */}
+              <div className="bg-[#050807] p-3 rounded-xl border border-emerald-950 flex flex-col gap-2 font-mono text-xs sm:text-sm">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-emerald-300 font-semibold truncate">
+                    {isEmailRevealed ? PERSONAL_INFO.email : 'muhammed [at] medxploit.sec'}
+                  </span>
+                  
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => setIsEmailRevealed((prev) => !prev)}
+                      className="p-1.5 text-slate-400 hover:text-white bg-[#0e1612] hover:bg-emerald-950 rounded border border-emerald-900/60 transition-colors cursor-pointer"
+                      title={isEmailRevealed ? 'Hide raw address' : 'Reveal real email address'}
+                    >
+                      {isEmailRevealed ? <EyeOff className="w-3.5 h-3.5 text-slate-400" /> : <Eye className="w-3.5 h-3.5 text-emerald-400" />}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleCopyEmail}
+                      className="p-1.5 text-slate-400 hover:text-white bg-[#0e1612] hover:bg-emerald-950 rounded border border-emerald-900/60 transition-colors cursor-pointer"
+                      title="Copy decoded email to clipboard"
+                    >
+                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    </button>
+
+                    <a
+                      href={`mailto:${PERSONAL_INFO.email}`}
+                      className="p-1.5 text-slate-400 hover:text-white bg-[#0e1612] hover:bg-emerald-950 rounded border border-emerald-900/60 transition-colors"
+                      title="Open in mail client"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </div>
+
+                <div className="text-[10px] text-slate-500 flex items-center justify-between border-t border-emerald-950/80 pt-1.5">
+                  <span>Security Hygiene: No raw plain text for crawler bots</span>
+                  <span className="text-emerald-400 font-semibold">
+                    {copied ? 'Copied to Clipboard!' : 'Click copy to paste'}
+                  </span>
                 </div>
               </div>
             </motion.div>
@@ -138,32 +183,12 @@ export function ContactSection() {
               </div>
             </motion.div>
 
-            {/* 3. Profiles & Verification links */}
+            {/* 3. Verified Channels & Profiles */}
             <motion.div variants={itemVariants} className="bg-[#0b100d]/80 border border-emerald-950/80 hover:border-emerald-500/40 shiny-border rounded-2xl p-6 backdrop-blur-md transition-all">
               <h3 className="text-sm font-bold text-white mb-3">
                 {t('Verified Cyber Profiles', 'Profil Terverifikasi')}
               </h3>
               <div className="space-y-2">
-                <a
-                  href={PERSONAL_INFO.credly}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-xl bg-[#050807] hover:bg-[#0e1612] border border-emerald-950 hover:border-emerald-500/50 transition-all text-xs group"
-                >
-                  <span className="font-semibold text-slate-200 group-hover:text-emerald-300">Credly Badge Wallet</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-400" />
-                </a>
-
-                <a
-                  href={PERSONAL_INFO.tryhackme}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-xl bg-[#050807] hover:bg-[#0e1612] border border-emerald-950 hover:border-emerald-500/50 transition-all text-xs group"
-                >
-                  <span className="font-semibold text-slate-200 group-hover:text-emerald-300">TryHackMe Profile (MUHAMMEDAZEEZ770)</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-400" />
-                </a>
-
                 <a
                   href={PERSONAL_INFO.linkedin}
                   target="_blank"
@@ -175,12 +200,22 @@ export function ContactSection() {
                 </a>
 
                 <a
-                  href={PERSONAL_INFO.twitter}
+                  href={PERSONAL_INFO.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-between p-3 rounded-xl bg-[#050807] hover:bg-[#0e1612] border border-emerald-950 hover:border-emerald-500/50 transition-all text-xs group"
                 >
-                  <span className="font-semibold text-slate-200 group-hover:text-emerald-300">X (Twitter): @Medxploit</span>
+                  <span className="font-semibold text-slate-200 group-hover:text-emerald-300">GitHub: muhammedabdulazeez</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-400" />
+                </a>
+
+                <a
+                  href={PERSONAL_INFO.credly}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between p-3 rounded-xl bg-[#050807] hover:bg-[#0e1612] border border-emerald-950 hover:border-emerald-500/50 transition-all text-xs group"
+                >
+                  <span className="font-semibold text-slate-200 group-hover:text-emerald-300">Credly Digital Badges</span>
                   <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-400" />
                 </a>
 
@@ -190,7 +225,7 @@ export function ContactSection() {
                   rel="noopener noreferrer"
                   className="flex items-center justify-between p-3 rounded-xl bg-[#050807] hover:bg-[#0e1612] border border-emerald-950 hover:border-emerald-500/50 transition-all text-xs group"
                 >
-                  <span className="font-semibold text-slate-200 group-hover:text-emerald-300">Medium Articles: @muhammedabdulazeez770</span>
+                  <span className="font-semibold text-slate-200 group-hover:text-emerald-300">Medium Security Articles</span>
                   <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-400" />
                 </a>
               </div>
@@ -198,7 +233,7 @@ export function ContactSection() {
 
           </motion.div>
 
-          {/* Right Column: Interactive Contact Form with Stagger Reveal */}
+          {/* Right Column: Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: 35 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -207,12 +242,12 @@ export function ContactSection() {
             className="lg:col-span-7 bg-[#0b100d]/80 border border-emerald-950/80 hover:border-emerald-500/40 shiny-border rounded-2xl p-6 sm:p-8 backdrop-blur-md"
           >
             <h3 className="text-xl font-bold text-white mb-2">
-              {t('Send an Encrypted Dispatch', 'Kirim Pesan Langsung')}
+              {t('Send a Direct Dispatch', 'Kirim Pesan Langsung')}
             </h3>
             <p className="text-xs sm:text-sm text-slate-400 mb-6">
               {t(
-                'Fill in the brief details below and I will respond promptly to discuss security engagements.',
-                'Isi formulir di bawah ini dan saya akan segera merespons untuk mendiskusikan peluang keamanan.'
+                'Fill in the brief details below and I will respond promptly to discuss security engagements or hiring.',
+                'Isi formulir di bawah ini dan saya akan segera merespons untuk mendiskusikan peluang keamanan atau rekrutmen.'
               )}
             </p>
 
@@ -227,8 +262,8 @@ export function ContactSection() {
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-md mx-auto">
                     {t(
-                      `Thank you, ${formData.name}. Your inquiry has been received. You can also reach out directly via email at ${PERSONAL_INFO.email}.`,
-                      `Terima kasih, ${formData.name}. Pesan Anda telah diterima. Anda juga dapat menghubungi via email di ${PERSONAL_INFO.email}.`
+                      `Thank you, ${formData.name}. Your inquiry has been received. I will reply to ${formData.email} promptly.`,
+                      `Terima kasih, ${formData.name}. Pesan Anda telah diterima. Saya akan segera membalas ke ${formData.email}.`
                     )}
                   </p>
                 </div>
@@ -291,7 +326,7 @@ export function ContactSection() {
                     type="text"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    placeholder="e.g. Cloud Security Analyst Opportunity / Pentest Engagement"
+                    placeholder="e.g. Cloud Security Analyst Opportunity / IAM Pentest"
                     className="w-full bg-[#050807] border border-emerald-950 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/30 placeholder:text-slate-600 transition-colors"
                   />
                 </div>
@@ -305,7 +340,7 @@ export function ContactSection() {
                     required
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Detail your requirements, timeline, or role description..."
+                    placeholder="Detail your opportunity, role requirements, or consulting timeline..."
                     className="w-full bg-[#050807] border border-emerald-950 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/30 placeholder:text-slate-600 transition-colors resize-none"
                   />
                 </div>
@@ -315,7 +350,7 @@ export function ContactSection() {
                   className="w-full flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-slate-950 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-400 hover:from-emerald-400 hover:to-teal-300 rounded-xl shadow-lg shadow-emerald-950/60 hover:shadow-emerald-500/20 transition-all cursor-pointer font-mono font-bold"
                 >
                   <Send className="w-4 h-4" />
-                  <span>{t('Send Security Dispatch', 'Kirim Pesan Keamanan')}</span>
+                  <span>{t('Send Direct Dispatch', 'Kirim Pesan Langsung')}</span>
                 </button>
               </form>
             )}
