@@ -1,24 +1,12 @@
 import { useState } from 'react';
-import { motion } from 'motion/react';
-import { PROJECTS, Project } from '../data/portfolioData';
-import { useLanguage } from '../context/LanguageContext';
-import { 
-  ShieldCheck, 
-  ExternalLink, 
-  ArrowRight, 
-  Eye, 
-  Github, 
-  Wrench, 
-  AlertCircle, 
-  CheckCircle2 
-} from 'lucide-react';
+import { PROJECTS, Project, PERSONAL_INFO } from '../data/portfolioData';
+import { ExternalLink, ArrowRight, Github } from 'lucide-react';
 
 interface ProjectsSectionProps {
   onSelectProject: (project: Project) => void;
 }
 
 export function ProjectsSection({ onSelectProject }: ProjectsSectionProps) {
-  const { t } = useLanguage();
   const [filter, setFilter] = useState<'all' | 'cloud' | 'pentest' | 'iam'>('all');
 
   const filteredProjects = PROJECTS.filter((proj) => {
@@ -27,205 +15,145 @@ export function ProjectsSection({ onSelectProject }: ProjectsSectionProps) {
   });
 
   const filterTabs = [
-    { id: 'all', label: t('All Case Studies', 'Semua Studi Kasus') },
-    { id: 'cloud', label: t('Cloud Security & CSPM', 'Keamanan Cloud & CSPM') },
-    { id: 'iam', label: t('Zero-Trust IAM (Keycloak)', 'Zero-Trust IAM') },
-    { id: 'pentest', label: t('Offensive Web AppSec', 'Pentesting Web') },
+    { id: 'all', label: 'All Projects' },
+    { id: 'cloud', label: 'Cloud Security' },
+    { id: 'iam', label: 'Zero-Trust IAM' },
+    { id: 'pentest', label: 'Web AppSec' },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.14,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 35, scale: 0.96 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.55,
-        ease: [0.16, 1, 0.3, 1] as const,
-      },
-    },
-  };
-
   return (
-    <section id="projects" className="py-24 relative z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="projects" className="py-16 sm:py-20 border-b border-neutral-900">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         
-        {/* Section Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-3xl mx-auto mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-800/70 text-xs font-mono text-emerald-400 mb-4 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>{t('DEEP SECURITY CASE STUDIES', 'STUDI KASUS KEAMANAN MENDALAM')}</span>
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <p className="text-xs font-mono uppercase tracking-wider text-red-500 font-semibold mb-2">
+              Selected Work
+            </p>
+            <h2 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-white">
+              Security Projects & Case Studies
+            </h2>
+            <p className="text-sm sm:text-base text-neutral-400 mt-2 max-w-xl">
+              Real cloud IAM setups, firewall defenses, and web testing labs with documented results.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            {t('Cloud Defense Architectures & Offensive Exploits', 'Arsitektur Pertahanan Cloud & Riset Eksploitasi')}
-          </h2>
-          <p className="text-slate-400 mt-4 text-base leading-relaxed">
-            {t(
-              'Each project is backed by verified problem statements, tools used, architecture decisions, measurable results, and linked GitHub repositories.',
-              'Setiap proyek didukung oleh pernyataan masalah, alat yang digunakan, keputusan arsitektur, hasil terukur, dan tautan repositori GitHub.'
-            )}
-          </p>
 
-          {/* Filter Tabs */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
-            {filterTabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setFilter(tab.id as typeof filter)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer font-mono ${
-                  filter === tab.id
-                    ? 'bg-gradient-to-r from-emerald-500 via-teal-400 to-lime-400 text-slate-950 font-bold shadow-md shadow-emerald-500/25'
-                    : 'bg-[#0d1611] text-slate-400 hover:text-white border border-emerald-950 hover:border-emerald-800'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </motion.div>
+          <a
+            href={PERSONAL_INFO.githubProjects}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-mono font-semibold text-white bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-red-600/60 rounded-lg self-start md:self-auto shrink-0"
+          >
+            <Github className="w-4 h-4 text-red-500" />
+            <span>All GitHub Projects</span>
+            <ExternalLink className="w-3.5 h-3.5 text-neutral-400" />
+          </a>
+        </div>
 
-        {/* Project Cards Grid */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
+        {/* Filter Controls */}
+        <div className="flex flex-wrap items-center gap-2 mb-8">
+          {filterTabs.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setFilter(tab.id as typeof filter)}
+              className={`px-3.5 py-2 rounded-lg text-xs font-medium cursor-pointer ${
+                filter === tab.id
+                  ? 'bg-red-600 text-white font-semibold'
+                  : 'bg-neutral-900 text-neutral-300 hover:text-white border border-neutral-800'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project) => (
-            <motion.div
+            <article
               key={project.id}
-              variants={itemVariants}
-              className="group shiny-border rounded-2xl overflow-hidden bg-[#0a120e]/80 hover:bg-[#0e1913] transition-all duration-300 hover:-translate-y-1.5 shadow-lg shadow-black/50 hover:shadow-2xl hover:shadow-emerald-950/40 flex flex-col justify-between hover:border-emerald-500/50"
+              className="surface-card rounded-xl overflow-hidden flex flex-col justify-between"
             >
               <div>
-                {/* Thumbnail Container */}
-                <div 
+                {/* Thumbnail */}
+                <button
+                  type="button"
                   onClick={() => onSelectProject(project)}
-                  className="relative aspect-video overflow-hidden bg-[#050807] border-b border-emerald-950 cursor-pointer"
-                  title="Click to view full architecture details"
+                  className="block w-full text-left aspect-video bg-black border-b border-neutral-800 overflow-hidden cursor-pointer"
+                  title="Inspect project details and screenshots"
                 >
                   <img
                     src={project.thumbnail}
                     alt={project.title}
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover object-top"
                     referrerPolicy="no-referrer"
                   />
-                  
-                  {/* Scrim overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050807] via-[#050807]/30 to-transparent opacity-80 group-hover:opacity-50 transition-opacity" />
+                </button>
 
-                  {/* Badge */}
-                  <div className="absolute top-3 left-3 bg-[#050807]/90 backdrop-blur-md border border-emerald-900/80 rounded-md px-2.5 py-1 text-[11px] font-mono text-emerald-400 flex items-center gap-1.5 shadow-sm">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>{project.badge}</span>
-                  </div>
-
-                  {/* Hover Inspect Action */}
-                  <div className="absolute inset-0 bg-[#050807]/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-emerald-400 text-xs font-semibold font-mono pointer-events-none">
-                    <Eye className="w-4 h-4" />
-                    <span>{t('Inspect Case Study', 'Buka Studi Kasus')}</span>
-                  </div>
-                </div>
-
-                {/* Card Content with Depth Fields */}
-                <div className="p-6">
-                  <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
-                    <span className="text-emerald-400 font-semibold">{project.categoryLabel}</span>
+                {/* Body */}
+                <div className="p-5">
+                  <div className="flex items-center gap-2 text-xs font-mono text-neutral-400 mb-2">
+                    <span className="text-red-500 font-semibold">{project.categoryLabel}</span>
+                    <span aria-hidden="true">·</span>
                     <span>{project.date}</span>
                   </div>
 
-                  <h3 
+                  <h3
                     onClick={() => onSelectProject(project)}
-                    className="text-lg font-bold text-white mb-3 group-hover:text-emerald-300 transition-colors line-clamp-2 cursor-pointer"
+                    className="font-display text-lg font-bold text-white mb-3 hover:text-red-500 cursor-pointer leading-snug"
                   >
                     {project.title}
                   </h3>
 
-                  {/* Problem & Result Mini-Blocks */}
-                  <div className="space-y-2 mb-4 text-xs">
-                    <div className="bg-[#050807] p-2.5 rounded-lg border border-emerald-950">
-                      <div className="text-[10px] font-mono font-bold text-red-400 uppercase tracking-wider mb-0.5">
-                        Problem
-                      </div>
-                      <p className="text-slate-300 line-clamp-2 leading-relaxed">
-                        {project.problem}
-                      </p>
-                    </div>
-
-                    <div className="bg-[#050807] p-2.5 rounded-lg border border-emerald-950">
-                      <div className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider mb-0.5">
-                        Outcome
-                      </div>
-                      <p className="text-slate-300 line-clamp-2 leading-relaxed">
-                        {project.result}
-                      </p>
-                    </div>
+                  <div className="space-y-2.5 text-xs text-neutral-300 leading-relaxed mb-4">
+                    <p>
+                      <span className="text-white font-semibold">Problem: </span>
+                      {project.problem}
+                    </p>
+                    <p>
+                      <span className="text-white font-semibold">Action: </span>
+                      {project.whatIDid}
+                    </p>
+                    <p>
+                      <span className="text-red-400 font-semibold">Result: </span>
+                      {project.result}
+                    </p>
                   </div>
 
-                  {/* Tools Tags */}
-                  <div className="flex flex-wrap gap-1.5 mb-2">
-                    {project.tags.slice(0, 4).map((tag, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="px-2 py-0.5 rounded bg-[#060a08] text-[10px] font-mono text-emerald-300/90 border border-emerald-950"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  {/* Unboxed Tools Metadata */}
+                  <p className="text-[11px] font-mono text-neutral-400">
+                    Tools: {project.toolsUsed.join(' · ')}
+                  </p>
                 </div>
               </div>
 
-              {/* Card Footer: GitHub Link + Case Study Details */}
-              <div className="px-6 pb-6 pt-3 border-t border-emerald-950/80 flex items-center justify-between text-xs font-mono">
-                {project.githubUrl ? (
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors group/link"
-                    title="View GitHub Repository"
-                  >
-                    <Github className="w-3.5 h-3.5 text-emerald-400 group-hover/link:scale-110 transition-transform" />
-                    <span>GitHub Repo</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </a>
-                ) : (
-                  <span className="text-slate-600">Enterprise Lab</span>
-                )}
+              {/* Footer Actions */}
+              <div className="px-5 py-3.5 border-t border-neutral-800 bg-[#0b0b0b] flex items-center justify-between text-xs font-mono">
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-neutral-200 hover:text-red-500"
+                >
+                  <Github className="w-3.5 h-3.5 text-red-500" />
+                  <span>GitHub Repo</span>
+                  <ExternalLink className="w-3 h-3 text-neutral-500" />
+                </a>
 
                 <button
                   type="button"
                   onClick={() => onSelectProject(project)}
-                  className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-semibold cursor-pointer"
+                  className="inline-flex items-center gap-1 text-white hover:text-red-500 font-semibold cursor-pointer"
                 >
-                  <span>{t('Deep Dive', 'Detail')}</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  <span>Screenshots</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
-
-            </motion.div>
+            </article>
           ))}
-        </motion.div>
-
+        </div>
       </div>
     </section>
   );
